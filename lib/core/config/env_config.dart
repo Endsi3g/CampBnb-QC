@@ -1,10 +1,39 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Configuration des variables d'environnement
 class EnvConfig {
+  static bool _sandboxMode = false;
+  static bool _initialized = false;
+  
   static Future<void> load() async {
-    await dotenv.load(fileName: '.env');
+    if (_initialized) return;
+    
+    try {
+      await dotenv.load(fileName: '.env');
+    } catch (e) {
+      // Si .env n'existe pas, on active le mode sandbox
+      _sandboxMode = true;
+    }
+    
+    // Vérifier si le mode sandbox est explicitement activé
+    final prefs = await SharedPreferences.getInstance();
+    _sandboxMode = prefs.getBool('sandbox_mode') ?? 
+                   dotenv.env['SANDBOX_MODE'] == 'true' ||
+                   !isConfigured;
+    
+    _initialized = true;
   }
+  
+  /// Activer/désactiver le mode sandbox
+  static Future<void> setSandboxMode(bool enabled) async {
+    _sandboxMode = enabled;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('sandbox_mode', enabled);
+  }
+  
+  /// Vérifier si on est en mode sandbox
+  static bool get isSandboxMode => _sandboxMode;
   
   // Supabase
   static String get supabaseUrl => dotenv.env['SUPABASE_URL'] ?? '';

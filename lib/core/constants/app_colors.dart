@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 
-/// Palette de couleurs inspirée du Québec
+/// Palette de couleurs basée sur les designs HTML
 class AppColors {
-  // Couleurs principales
-  static const Color forestGreen = Color(0xFF2D5016); // Vert forêt
-  static const Color stLaurentBlue = Color(0xFF4A90E2); // Bleu Saint-Laurent
-  static const Color woodBeige = Color(0xFFD4A574); // Beige bois
-  static const Color offWhite = Color(0xFFF5F5F0); // Blanc cassé
-  static const Color softGray = Color(0xFFE8E8E3); // Gris doux
+  // Couleurs principales (basées sur les designs)
+  static const Color primary = Color(0xFF2D572C); // Forest Green
+  static const Color secondary = Color(0xFF3B8EA5); // Lake Blue
+  static const Color accent = Color(0xFFF5F5DC); // Wood Beige
+  static const Color neutral = Color(0xFFF5F1E8); // Neutral beige
   
-  // Couleurs secondaires
-  static const Color darkGreen = Color(0xFF1A3009);
-  static const Color lightGreen = Color(0xFF6B8E4F);
-  static const Color skyBlue = Color(0xFF7BB3F0);
-  static const Color darkBlue = Color(0xFF2E5C8A);
-  static const Color lightBeige = Color(0xFFE8D4B8);
+  // Couleurs de fond
+  static const Color backgroundLight = Color(0xFFF5F1E3); // Wood Beige light
+  static const Color backgroundDark = Color(0xFF152210); // Dark green
+  
+  // Couleurs de surface
+  static const Color surfaceLight = Color(0xFFFFFFFF);
+  static const Color surfaceDark = Color(0xFF2A3F29);
+  
+  // Couleurs de texte
+  static const Color textPrimary = Color(0xFF333333); // Dark charcoal
+  static const Color textSecondary = Color(0xFF5C5C5C);
+  static const Color textLight = Color(0xFFE0E0E0);
+  static const Color textDark = Color(0xFF131811);
   
   // Couleurs fonctionnelles
   static const Color error = Color(0xFFE74C3C);
@@ -22,18 +28,18 @@ class AppColors {
   static const Color warning = Color(0xFFF39C12);
   static const Color info = Color(0xFF3498DB);
   
-  // Couleurs de texte
-  static const Color textPrimary = Color(0xFF2C3E50);
-  static const Color textSecondary = Color(0xFF7F8C8D);
-  static const Color textLight = Color(0xFFBDC3C7);
-  
-  // Couleurs de fond
-  static const Color backgroundLight = Color(0xFFFFFFFF);
-  static const Color backgroundDark = Color(0xFF1A1A1A);
+  // Couleurs spécifiques aux designs
+  static const Color forestGreen = Color(0xFF2D572C);
+  static const Color lakeBlue = Color(0xFF3B8EA5);
+  static const Color woodBeige = Color(0xFFF5F1E3);
+  static const Color charcoal = Color(0xFF333333);
+  static const Color offWhite = Color(0xFFFFFFFF);
+  static const Color inactive = Color(0xFFD3C5AA);
+  static const Color trophyGold = Color(0xFFFFD700);
   
   // Couleurs pour dark mode
-  static const Color darkBackground = Color(0xFF121212);
-  static const Color darkSurface = Color(0xFF1E1E1E);
+  static const Color darkBackground = Color(0xFF152210);
+  static const Color darkSurface = Color(0xFF2A3F29);
   static const Color darkText = Color(0xFFE0E0E0);
 }
 
