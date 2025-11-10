@@ -68,7 +68,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          platforms: linux/amd64,linux/arm64
+          # Utiliser seulement linux/amd64 pour les PR pour accélérer, multi-plateformes pour push
+          platforms: ${{ github.event_name == 'pull_request' && 'linux/amd64' || 'linux/amd64,linux/arm64' }}
 
       - name: Image digest
         run: echo ${{ steps.meta.outputs.digest }}

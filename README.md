@@ -165,13 +165,24 @@ Voir la documentation complète dans le dossier `docs/` :
 
 ## 🔌 Intégrations
 
-L'application intègre trois repositories externes pour des fonctionnalités avancées :
+L'application intègre et s'inspire de plusieurs repositories externes :
 
+### Repositories fonctionnels intégrés :
 1. **Call Center AI** (Microsoft) - Système de centre d'appel avec IA pour le support client
 2. **LocalAI** (mudler) - Alternative locale à OpenAI/Gemini pour les fonctionnalités IA
 3. **Handy** (cjpais) - Service de transcription vocale offline
 
-Voir `docs/integrations.md` pour les détails d'installation et d'utilisation.
+### Repositories d'inspiration UI :
+4. **Airbnb UI Clone** - Design moderne et animations fluides
+5. **Airbnb Flutter Clone** - Patterns de composants réutilisables
+6. **Camping Mobile** - Fonctionnalités spécifiques au camping
+7. **Flutter Gemini** - Intégration Gemini améliorée
+8. **Flutter Gemini Chatbot** - Interface de chat moderne
+
+**Documentation** :
+- `docs/integrations.md` - Guide des intégrations fonctionnelles
+- `docs/UI_IMPROVEMENTS.md` - Améliorations UI inspirées
+- `REPOSITORIES_INTEGRATION.md` - Résumé complet de l'intégration
 
 ## 🧪 Tests
 

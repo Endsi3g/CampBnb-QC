@@ -1,15 +1,19 @@
 # Workflow Flutter - utilise flutter au lieu de dart pur
+# NOTE: Ce workflow est redondant avec flutter.yml et auto-deploy.yml
+# Il est conservé pour compatibilité mais peut être désactivé
 name: Flutter Build & Test
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:  # Désactivé pour push/PR pour éviter les doublons
+  # push:
+  #   branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: false  # Désactivé par défaut - utilisez flutter.yml ou auto-deploy.yml
 
     steps:
       - uses: actions/checkout@v4
