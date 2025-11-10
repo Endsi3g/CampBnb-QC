@@ -59,6 +59,7 @@ jobs:
     if: needs.detect-changes.outputs.flutter == 'true' || github.event_name == 'workflow_dispatch'
     permissions:
       contents: read
+      pull-requests: read
     
     steps:
       - name: Checkout code
@@ -156,8 +157,9 @@ jobs:
     needs: [build-flutter, build-backend]
     if: always()
     permissions:
-      contents: read
+      contents: write
       pull-requests: write
+      statuses: write
     
     steps:
       - name: Get deployment info
@@ -214,20 +216,28 @@ jobs:
               });
             }
             
-            // Créer un statut de commit
-            const state = (flutterSuccess && backendSuccess) ? 'success' : 'failure';
-            const description = (flutterSuccess && backendSuccess) 
-              ? '✅ Déploiement testing réussi' 
-              : '❌ Déploiement testing échoué';
-            
-            github.rest.repos.createCommitStatus({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              sha: context.sha,
-              state: state,
-              description: description,
-              context: 'deploy/testing'
-            });
+            // Créer un statut de commit (seulement pour les push, pas pour les PRs)
+            if (context.eventName === 'push' || context.eventName === 'workflow_dispatch') {
+              try {
+                const state = (flutterSuccess && backendSuccess) ? 'success' : 'failure';
+                const description = (flutterSuccess && backendSuccess) 
+                  ? '✅ Déploiement testing réussi' 
+                  : '❌ Déploiement testing échoué';
+                
+                await github.rest.repos.createCommitStatus({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  sha: context.sha,
+                  state: state,
+                  description: description,
+                  context: 'deploy/testing'
+                });
+              } catch (statusError) {
+                // Ignorer l'erreur si les permissions ne sont pas disponibles
+                console.log('⚠️ Impossible de créer le statut de commit:', statusError.message);
+                console.log('💡 Le workflow continue normalement sans le statut de commit');
+              }
+            }
 
   create-release:
     name: Create Testing Release
