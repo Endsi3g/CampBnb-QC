@@ -1,0 +1,63 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// Ce fichier sera généré automatiquement par build_runner
+
+part of 'listing_model.dart';
+
+ListingModel _$ListingModelFromJson(Map<String, dynamic> json) => ListingModel(
+      id: json['id'] as String,
+      hostId: json['host_id'] as String,
+      title: json['title'] as String,
+      description: json['description'] as String,
+      listingType: json['listing_type'] as String,
+      address: json['address'] as String,
+      city: json['city'] as String,
+      region: json['region'] as String,
+      postalCode: json['postal_code'] as String?,
+      latitude: (json['latitude'] as num).toDouble(),
+      longitude: (json['longitude'] as num).toDouble(),
+      pricePerNight: (json['price_per_night'] as num).toDouble(),
+      maxGuests: json['max_guests'] as int,
+      minNights: json['min_nights'] as int? ?? 1,
+      maxNights: json['max_nights'] as int?,
+      amenities: (json['amenities'] as List<dynamic>?)?.map((e) => e as String).toList() ?? const [],
+      photos: (json['photos'] as List<dynamic>?)?.map((e) => e as String).toList() ?? const [],
+      houseRules: json['house_rules'] as String?,
+      cancellationPolicy: json['cancellation_policy'] as String? ?? 'moderate',
+      status: json['status'] as String? ?? 'active',
+      isFeatured: json['is_featured'] as bool? ?? false,
+      viewCount: json['view_count'] as int? ?? 0,
+      ratingAverage: (json['rating_average'] as num?)?.toDouble() ?? 0.0,
+      reviewCount: json['review_count'] as int? ?? 0,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
+    );
+
+Map<String, dynamic> _$ListingModelToJson(ListingModel instance) => <String, dynamic>{
+      'id': instance.id,
+      'host_id': instance.hostId,
+      'title': instance.title,
+      'description': instance.description,
+      'listing_type': instance.listingType,
+      'address': instance.address,
+      'city': instance.city,
+      'region': instance.region,
+      'postal_code': instance.postalCode,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
+      'price_per_night': instance.pricePerNight,
+      'max_guests': instance.maxGuests,
+      'min_nights': instance.minNights,
+      'max_nights': instance.maxNights,
+      'amenities': instance.amenities,
+      'photos': instance.photos,
+      'house_rules': instance.houseRules,
+      'cancellation_policy': instance.cancellationPolicy,
+      'status': instance.status,
+      'is_featured': instance.isFeatured,
+      'view_count': instance.viewCount,
+      'rating_average': instance.ratingAverage,
+      'review_count': instance.reviewCount,
+      'created_at': instance.createdAt.toIso8601String(),
+      'updated_at': instance.updatedAt.toIso8601String(),
+    };
+
