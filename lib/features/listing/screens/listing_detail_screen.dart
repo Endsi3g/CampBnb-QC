@@ -22,7 +22,7 @@ class ListingDetailScreen extends StatelessWidget {
                 // Header Image
                 Container(
                   height: 320,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(
                         'https://lh3.googleusercontent.com/aida-public/AB6AXuBpj9YzTxoxmJbwHm1pEzf6gp7ck-uWUE6ED6wXYLYgaxtgZMkDMJcB0NmQYm0HbjaviZJS_cRCKv6h9pnu-O1hbliX5c5A4U5H0x-kphjISoUVYRekqjssb0g_0RkmNZYBkZUo-i2MLA6XEu58JldClD6sgjcotVMw_7qzz3Uf_qlMnb9J14bWY-vqvlVRd0r_xn__ivY9PsOisPuF6tjCoNEHnZNUTrjRaJLdFxtT-qd9QWubzdLaNLwqolcRPaUTbKQGXZzeoNLk',
@@ -30,25 +30,28 @@ class ListingDetailScreen extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          Colors.black.withOpacity(0.4),
-                        ],
+                  child: Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withOpacity(0.4),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                    // Image Indicators
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                      // Image Indicators
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
                             Container(
                               width: 24,
                               height: 8,
@@ -96,7 +99,7 @@ class ListingDetailScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
                 // Content
@@ -115,7 +118,7 @@ class ListingDetailScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      Text(
+                      const Text(
                         'Parc national de la Mauricie',
                         style: TextStyle(
                           fontSize: 16,
@@ -200,14 +203,14 @@ class ListingDetailScreen extends StatelessWidget {
                       const SizedBox(height: 16),
                       _buildAmenityItem(Icons.wc, 'Toilettes à proximité', isDark),
                       const SizedBox(height: 16),
-                      _buildAmenityItem(Icons.camping, 'Espace pour tente', isDark),
-                      const SizedBox(height: 100),
+                      _buildAmenityItem(Icons.forest, 'Espace pour tente', isDark),
+                      const SizedBox(height: 100                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
           // Top App Bar
           SafeArea(
             child: Padding(

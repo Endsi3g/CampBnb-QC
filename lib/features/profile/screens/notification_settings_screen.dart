@@ -60,7 +60,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Push Notifications Section
-            Text(
+            const Text(
               'NOTIFICATIONS PUSH',
               style: TextStyle(
                 fontSize: 16,
@@ -141,7 +141,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
             ),
             const SizedBox(height: 32),
             // Email Notifications Section
-            Text(
+            const Text(
               'NOTIFICATIONS PAR E-MAIL',
               style: TextStyle(
                 fontSize: 16,
@@ -256,7 +256,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
       trailing: Switch(
         value: value,
         onChanged: onChanged,
-        activeColor: AppColors.primary,
+        activeThumbColor: AppColors.primary,
       ),
     );
   }

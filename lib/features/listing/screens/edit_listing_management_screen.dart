@@ -39,7 +39,7 @@ class EditListingManagementScreen extends StatelessWidget {
           // Header Image
           Container(
             height: 256,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
                   'https://lh3.googleusercontent.com/aida-public/AB6AXuChM2lyTlgff3t47rwyF71T5qUKmcudRpsuVNKDOtrAYdAIzjhZSYbE0Jv1t2nxP2qm0GfoYd9WDXliXWZn6gWMwgvCIYw5CQKGdlDqDny7VxtKgsfj6-6X5yPfGAl-KX5GzuKAaswh6r2-gDy-RGEmTNN7tWv8AJrXDkTwAu5lIxADRii2HQ0RghcjhfgLRgmcxlCudgFqSvSamNFxNNGf_U0ot1HAwqRWiuuelX8Pm0yKJIkEHmaqg1QxfGxAjJvqYpwNJ6psT9sq',
@@ -59,7 +59,7 @@ class EditListingManagementScreen extends StatelessWidget {
                 ),
               ),
               padding: const EdgeInsets.all(24),
-              child: Column(
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -142,7 +142,7 @@ class EditListingManagementScreen extends StatelessWidget {
                 onPressed: () {},
                 style: OutlinedButton.styleFrom(
                   foregroundColor: AppColors.primary,
-                  side: BorderSide(color: AppColors.primary),
+                  side: const BorderSide(color: AppColors.primary),
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(9999),

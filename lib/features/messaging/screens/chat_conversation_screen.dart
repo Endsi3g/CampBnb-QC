@@ -37,7 +37,7 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
         ),
         title: Row(
           children: [
-            CircleAvatar(
+            const CircleAvatar(
               radius: 20,
               backgroundImage: NetworkImage(
                 'https://lh3.googleusercontent.com/aida-public/AB6AXuC3wlK1PZMpvn8G2EOWRU1qvcE72MBKFT-mcs5oj6ajPsPKNORGD-p4SGPbb-pSGgAUiOdlT8PeeXmPSV32lRsClH_W50qvsov29ziUxf74BQ3iI6pUgcCJNekb0bPS-kX3-XkeodhrY7u9dtU_N34AXIxK03YvgawNf2k2DuwLud_1OOArS0enEq8Td4zkpZpy2d_QDrTOaO-p_fE1v_UazOyVlMvRLiHyQI6aXj33t9InWE7AWtxe2sDjBuqKFE8pe_0sg2LUoqzQ',
@@ -93,7 +93,7 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
             ),
             child: Row(
               children: [
-                Icon(Icons.info, color: AppColors.secondary),
+                const Icon(Icons.info, color: AppColors.secondary),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
@@ -107,7 +107,7 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.close, size: 20),
+                  icon: const Icon(Icons.close, size: 20),
                   onPressed: () {},
                   color: isDark ? AppColors.textDark : AppColors.textLight,
                 ),
@@ -210,7 +210,7 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(9999),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: AppColors.primary,
                         ),
                       ),
@@ -229,7 +229,7 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
                 Container(
                   width: 44,
                   height: 44,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: AppColors.primary,
                     shape: BoxShape.circle,
                   ),
@@ -263,7 +263,7 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (!isMe) ...[
-            CircleAvatar(
+            const CircleAvatar(
               radius: 16,
               backgroundImage: NetworkImage(
                 'https://lh3.googleusercontent.com/aida-public/AB6AXuCDRT3XJDgroNHh91a7UU_ZNr1met7foOoPM6xC8bIte1SZyhYlWIeUCiVsEnmOcO0T52dbTFvZee2SsLf9V1jEclLlVEJhhwJbQtKWwGytKwKXFQwAzlPKsiDBcgs9DUsyQmaN76RqfRwweN51GjzrDf0z7k6sTJurgWcaLdu8a7d_yqGHLjXgtmSeJSRHAVy8-ti9mVNPvZH0NlrgEqodbysFxgav35JfqZgC0Tck23oTAb5rT_toRM72UfItXqlTULKqzN5Nd_4I',

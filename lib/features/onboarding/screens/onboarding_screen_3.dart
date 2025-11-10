@@ -17,7 +17,7 @@ class OnboardingScreen3 extends StatelessWidget {
           Expanded(
             flex: 3,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(
                     'https://lh3.googleusercontent.com/aida-public/AB6AXuC40eDbBF3vPmi0c9YwEu6xnSrxc-wr3RO1S1-5HQgXRwtnfhlBffxO79Z4sHrjlvWAVdT1GPPSLJSeF1QtcG-8sT96XxY8jY1mvfITa1dfitjV5YfucwNqj42-38oq7ZwgZzrtYuR_ftflZcMuK_YmxXwkApcdnzsiR0DaBmC4fGT0yfNqG42R58LvliWU_Ue_hQhH3ZYgTMx2X4NSfdF40V8eSiM_3KMFTwW-L5lWmwe4ErC_08hAMHRT3xQ8Gw0MbeZq_R4bKHj8',
@@ -37,11 +37,11 @@ class OnboardingScreen3 extends StatelessWidget {
                   ),
                 ),
                 padding: const EdgeInsets.all(24),
-                child: Column(
+                child: const Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'Devenez hôte sur Campbnb',
                       style: TextStyle(
                         fontSize: 36,
@@ -108,8 +108,8 @@ class OnboardingScreen3 extends StatelessWidget {
                       onPressed: () => context.go('/listing/add/step1'),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: const Color(0xFF3A7CA5),
-                        side: BorderSide(
-                          color: const Color(0xFFD9B48F),
+                        side: const BorderSide(
+                          color: Color(0xFFD9B48F),
                           width: 1,
                         ),
                         shape: RoundedRectangleBorder(
@@ -153,7 +153,7 @@ class OnboardingScreen3 extends StatelessWidget {
                       Container(
                         width: 10,
                         height: 10,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: AppColors.primary,
                           shape: BoxShape.circle,
                         ),

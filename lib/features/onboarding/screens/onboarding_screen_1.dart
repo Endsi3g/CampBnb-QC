@@ -9,7 +9,7 @@ class OnboardingScreen1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
               'https://lh3.googleusercontent.com/aida-public/AB6AXuAcZOEW8Y1m3r0C4497xIXvR8oezfO02HR0nF2QVSZT3O2l5lskiROIkweNxsdpKvgLQ4BWk35yHXjdctTYArzmBCSpKdnePwGs0LyOjQoR_q3eMahE8TMabU6Q6J5_QvhCZcHbtA8JBxJ38mNfazsrDLxXBX2fsWVKVTPhjTnqjb56-dnjqBeLb-87HGtJrCTTo4Qna5PoTooCyE5W6p8Iaz0pY0VO66fLqe0cZMFrc2lc9vyvyx0AhmArbeOfqTbKh5Uj9RFbQ3Md',
@@ -69,7 +69,7 @@ class OnboardingScreen1 extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      Text(
+                      const Text(
                         'Trouvez et réservez des campings uniques et des trésors cachés à travers le Québec.',
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -87,7 +87,7 @@ class OnboardingScreen1 extends StatelessWidget {
                           Container(
                             width: 10,
                             height: 10,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: AppColors.primary,
                               shape: BoxShape.circle,
                             ),

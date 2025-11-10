@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../services/gemini_service.dart';
+import '../../../services/supabase_service.dart';
 
 part 'gemini_provider.g.dart';
 

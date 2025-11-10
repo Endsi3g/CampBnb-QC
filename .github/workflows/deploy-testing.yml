@@ -1,0 +1,284 @@
+name: Deploy to Testing Environment
+
+on:
+  push:
+    branches:
+      - develop
+      - staging
+      - test
+  pull_request:
+    branches:
+      - develop
+      - staging
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'testing'
+        type: choice
+        options:
+          - testing
+          - staging
+
+env:
+  FLUTTER_VERSION: '3.27.0'
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}/campbnb-backend
+
+jobs:
+  detect-changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    outputs:
+      flutter: ${{ steps.filter.outputs.flutter }}
+      backend: ${{ steps.filter.outputs.backend }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      
+      - name: Check for changes
+        id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            flutter:
+              - 'lib/**'
+              - 'test/**'
+              - 'pubspec.yaml'
+              - 'pubspec.lock'
+            backend:
+              - 'backend/**'
+
+  build-flutter:
+    name: Build Flutter App
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.flutter == 'true' || github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate code
+        run: flutter pub run build_runner build --delete-conflicting-outputs || true
+
+      - name: Build Web (Testing)
+        run: |
+          flutter build web --release --dart-define=ENV=testing
+        continue-on-error: true
+
+      - name: Build APK (Testing)
+        run: |
+          flutter build apk --release --dart-define=ENV=testing
+        continue-on-error: true
+
+      - name: Upload Web Build
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build-testing
+          path: build/web/
+          retention-days: 7
+
+      - name: Upload APK Build
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk-build-testing
+          path: build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 7
+
+  build-backend:
+    name: Build Backend Docker Image
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.backend == 'true' || github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=testing
+            type=raw,value=testing-{{sha}}
+            type=ref,event=branch
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64
+          build-args: |
+            BUILDKIT_INLINE_CACHE=1
+
+  deploy-notification:
+    name: Deploy Notification
+    runs-on: ubuntu-latest
+    needs: [build-flutter, build-backend]
+    if: always()
+    permissions:
+      contents: read
+      pull-requests: write
+    
+    steps:
+      - name: Get deployment info
+        id: info
+        run: |
+          echo "branch=$(echo ${{ github.ref }} | sed 's/refs\/heads\///')" >> $GITHUB_OUTPUT
+          echo "sha=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_OUTPUT
+          echo "actor=${{ github.actor }}" >> $GITHUB_OUTPUT
+
+      - name: Create deployment summary
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const branch = '${{ steps.info.outputs.branch }}';
+            const sha = '${{ steps.info.outputs.sha }}';
+            const actor = '${{ steps.info.outputs.actor }}';
+            const flutterSuccess = '${{ needs.build-flutter.result }}' === 'success';
+            const backendSuccess = '${{ needs.build-backend.result }}' === 'success';
+            
+            let summary = `## 🚀 Déploiement Testing - Résumé\n\n`;
+            summary += `**Branche**: \`${branch}\`\n`;
+            summary += `**Commit**: \`${sha}\`\n`;
+            summary += `**Auteur**: @${actor}\n\n`;
+            summary += `### 📦 Builds\n\n`;
+            summary += `${flutterSuccess ? '✅' : '❌'} **Flutter**: ${flutterSuccess ? 'Réussi' : 'Échoué'}\n`;
+            summary += `${backendSuccess ? '✅' : '❌'} **Backend**: ${backendSuccess ? 'Réussi' : 'Échoué'}\n\n`;
+            
+            if (flutterSuccess) {
+              summary += `### 📱 Artifacts Flutter\n`;
+              summary += `- Web Build: Disponible dans les artifacts\n`;
+              summary += `- APK Android: Disponible dans les artifacts\n\n`;
+            }
+            
+            if (backendSuccess) {
+              summary += `### 🐳 Image Docker\n`;
+              summary += `- Image: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:testing\`\n`;
+              summary += `- Tags: \`testing\`, \`testing-${sha}\`\n\n`;
+            }
+            
+            summary += `### 🔗 Liens\n`;
+            summary += `- [Workflow Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\n`;
+            summary += `- [Commit](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})\n\n`;
+            summary += `---\n`;
+            summary += `💡 *Les artifacts sont disponibles pendant 7 jours.*`;
+            
+            // Commenter sur la PR si c'est une PR
+            if (context.payload.pull_request) {
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: summary
+              });
+            }
+            
+            // Créer un statut de commit
+            const state = (flutterSuccess && backendSuccess) ? 'success' : 'failure';
+            const description = (flutterSuccess && backendSuccess) 
+              ? '✅ Déploiement testing réussi' 
+              : '❌ Déploiement testing échoué';
+            
+            github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: state,
+              description: description,
+              context: 'deploy/testing'
+            });
+
+  create-release:
+    name: Create Testing Release
+    runs-on: ubuntu-latest
+    needs: [build-flutter, build-backend]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/staging')
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: '*-testing'
+          merge-multiple: false
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: testing-${{ github.run_number }}
+          name: Testing Release #${{ github.run_number }}
+          body: |
+            ## 🧪 Release Testing
+            
+            **Branche**: `${{ github.ref_name }}`
+            **Commit**: `${{ github.sha }}`
+            **Build**: #${{ github.run_number }}
+            
+            ### 📦 Artifacts
+            
+            - **Web Build**: Disponible dans les téléchargements
+            - **APK Android**: Disponible dans les téléchargements
+            - **Docker Image**: `${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:testing`
+            
+            ### 🚀 Utilisation
+            
+            ```bash
+            # Pull l'image Docker
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:testing
+            
+            # Run le container
+            docker run -p 5000:5000 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:testing
+            ```
+            
+            ---
+            ⚠️ **Note**: Cette release est pour l'environnement de test uniquement.
+          files: |
+            apk-build-testing/app-release.apk
+          draft: false
+          prerelease: true
+

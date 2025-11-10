@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../core/config/env_config.dart';
 import '../core/utils/logger.dart';
@@ -135,9 +136,7 @@ class SupabaseService {
       var query = _client
           .from('listings')
           .select()
-          .eq('status', 'active')
-          .order('created_at', ascending: false)
-          .range(offset, offset + limit - 1);
+          .eq('status', 'active');
       
       if (region != null) {
         query = query.eq('region', region);
@@ -158,7 +157,11 @@ class SupabaseService {
         query = query.gte('max_guests', maxGuests);
       }
       
-      final response = await query;
+      final finalQuery = query
+          .order('created_at', ascending: false)
+          .range(offset, offset + limit - 1);
+      
+      final response = await finalQuery;
       return (response as List)
           .map((json) => ListingModel.fromJson(json))
           .toList();
@@ -321,7 +324,7 @@ class SupabaseService {
   // STORAGE (Images)
   // ============================================
   
-  Future<String> uploadImage(String path, List<int> bytes) async {
+  Future<String> uploadImage(String path, Uint8List bytes) async {
     try {
       final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
       await _client.storage

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../features/search/providers/search_provider.dart';
-import '../../listing/screens/listing_detail_screen.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -138,12 +137,12 @@ class HomeScreen extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.camping,
+                            Icons.forest,
                             size: 64,
                             color: AppColors.textSecondary,
                           ),
                           const SizedBox(height: 16),
-                          Text(
+                          const Text(
                             'Aucun résultat',
                             style: TextStyle(
                               color: AppColors.textSecondary,

@@ -1,0 +1,78 @@
+name: 🚀 Release Automatique
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Ex: v1.0.0, v1.2.3
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version à release (ex: 1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  release:
+    name: 🚀 Création de Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: 📥 Checkout du code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔧 Configuration Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+          cache: true
+
+      - name: 📦 Récupération des dépendances
+        run: flutter pub get
+
+      - name: 🏗️ Build APK Release
+        run: flutter build apk --release
+
+      - name: 🏗️ Build Web Release
+        run: flutter build web --release
+
+      - name: 📝 Extraction de la version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION=${GITHUB_REF#refs/tags/v}
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+      - name: 📤 Création de la Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: Release v${{ steps.version.outputs.version }}
+          body: |
+            ## 🎉 Release v${{ steps.version.outputs.version }}
+
+            ### 📦 Artefacts inclus:
+            - APK Android (Release)
+            - Build Web (Release)
+
+            ### 📝 Changelog
+            Consultez le [CHANGELOG.md](CHANGELOG.md) pour plus de détails.
+
+            ### 🚀 Installation
+            - **Android**: Téléchargez l'APK ci-dessous
+            - **Web**: Déployez le build web sur votre serveur
+          files: |
+            build/app/outputs/flutter-apk/app-release.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

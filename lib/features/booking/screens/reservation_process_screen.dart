@@ -14,8 +14,8 @@ class ReservationProcessScreen extends StatefulWidget {
 class _ReservationProcessScreenState extends State<ReservationProcessScreen> {
   int _adults = 2;
   int _children = 0;
-  DateTime? _startDate;
-  DateTime? _endDate;
+  // DateTime? _startDate; // Utilisé dans le futur
+  // DateTime? _endDate; // Utilisé dans le futur
 
   @override
   Widget build(BuildContext context) {
@@ -234,7 +234,7 @@ class _ReservationProcessScreenState extends State<ReservationProcessScreen> {
             const SizedBox(height: 8),
             TextButton(
               onPressed: () {},
-              child: Text(
+              child: const Text(
                 'Détails du prix',
                 style: TextStyle(
                   fontSize: 14,

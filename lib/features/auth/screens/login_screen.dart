@@ -158,7 +158,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: AppColors.secondary,
                                     width: 2,
                                   ),
@@ -226,7 +226,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: AppColors.secondary,
                                     width: 2,
                                   ),
@@ -299,7 +299,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     onPressed: () {
                       // TODO: Implement forgot password
                     },
-                    child: Text(
+                    child: const Text(
                       'Mot de passe oublié ?',
                       style: TextStyle(
                         color: AppColors.secondary,

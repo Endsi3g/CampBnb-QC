@@ -11,7 +11,7 @@ class WelcomeScreen extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(
+            image: const NetworkImage(
               'https://lh3.googleusercontent.com/aida-public/AB6AXuBK8Qskd7Y2hfnDi3_gw3SgMHm565lpZTn66aA1oCTWJ8H9qX_EvMEsR4jL-FmtL6N400LYUFvMmUFyp-SBx4OlsX3J9MQ20VHP9Qw-7FgNcRuqtxXKXpBBof6NaGnE2YnX6OULCwTKuqOPWl6DQI5Z8-x9jXMS1HAEMZTQsIE-nYoTaFwYjr6Rmq4Dq2SVjzxDlPfve825_ftxnfAiSmoZSu9CsoEJ6Hr0aqJagAalE_gfzIit1vven6dASc7sbBTQ7W_OZgW6YJ5S',
             ),
             fit: BoxFit.cover,

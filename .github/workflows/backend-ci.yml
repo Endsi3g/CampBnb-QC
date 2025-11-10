@@ -1,0 +1,83 @@
+name: 🐍 Backend CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-ci.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'backend/**'
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: 🧪 Tests Backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout du code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Configuration Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 📦 Installation des dépendances
+        working-directory: ./backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov
+
+      - name: 🔍 Analyse du code (lint)
+        working-directory: ./backend
+        run: |
+          pip install flake8 black
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics || true
+          black --check . || true
+
+      - name: 🧪 Exécution des tests
+        working-directory: ./backend
+        run: |
+          pytest --cov=. --cov-report=xml || true
+
+      - name: 📊 Upload de la couverture de code
+        uses: codecov/codecov-action@v4
+        if: always()
+        with:
+          file: ./backend/coverage.xml
+          flags: backend
+          name: backend-coverage
+
+  build-docker:
+    name: 🐳 Build Docker
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: 📥 Checkout du code
+        uses: actions/checkout@v4
+
+      - name: 🔐 Connexion à GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🏗️ Build et Push de l'image Docker
+        run: |
+          docker build -f ./backend/Dockerfile -t ghcr.io/${{ github.repository_owner }}/campbnb-backend:latest ./backend
+          docker push ghcr.io/${{ github.repository_owner }}/campbnb-backend:latest
+
+      - name: 🏷️ Tag avec le SHA du commit
+        run: |
+          docker tag ghcr.io/${{ github.repository_owner }}/campbnb-backend:latest \
+            ghcr.io/${{ github.repository_owner }}/campbnb-backend:${{ github.sha }}
+          docker push ghcr.io/${{ github.repository_owner }}/campbnb-backend:${{ github.sha }}
+

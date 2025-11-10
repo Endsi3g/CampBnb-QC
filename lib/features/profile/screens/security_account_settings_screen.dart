@@ -51,7 +51,7 @@ class SecurityAccountSettingsScreen extends StatelessWidget {
                 ),
                 Divider(height: 1, color: Colors.grey.shade300),
                 _buildSettingsItem(
-                  icon: Icons.shield_lock,
+                  icon: Icons.security,
                   title: 'Authentification à deux facteurs',
                   onTap: () {},
                   isDark: isDark,
@@ -124,7 +124,7 @@ class SecurityAccountSettingsScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Text(
         title.toUpperCase(),
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.bold,
           color: AppColors.primary,

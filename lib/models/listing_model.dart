@@ -68,5 +68,8 @@ class ListingModel {
   String get mainPhoto => photos.isNotEmpty ? photos.first : '';
   
   bool get hasPhotos => photos.isNotEmpty;
+  
+  // Alias pour compatibilité avec le code existant
+  String get imageUrl => mainPhoto;
 }
 
