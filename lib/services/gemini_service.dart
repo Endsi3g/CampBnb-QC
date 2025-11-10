@@ -16,7 +16,7 @@ class GeminiService {
   void initialize() {
     _apiKey = EnvConfig.geminiApiKey;
     if (_apiKey == null || _apiKey!.isEmpty) {
-      errorLogger.w('Clé API Gemini non configurée');
+      appLogger.w('Clé API Gemini non configurée');
     }
   }
   

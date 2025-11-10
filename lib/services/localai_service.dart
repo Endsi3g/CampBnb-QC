@@ -20,7 +20,7 @@ class LocalAIService {
     _model = EnvConfig.localAIModel ?? 'gpt-3.5-turbo';
     
     if (_baseUrl == null || _baseUrl!.isEmpty) {
-      errorLogger.w('URL LocalAI non configurée');
+      appLogger.w('URL LocalAI non configurée');
     }
   }
 

@@ -18,7 +18,7 @@ class MapsService {
     try {
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
-        errorLogger.w('Service de localisation désactivé');
+        appLogger.w('Service de localisation désactivé');
         return null;
       }
       
@@ -26,13 +26,13 @@ class MapsService {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          errorLogger.w('Permission de localisation refusée');
+          appLogger.w('Permission de localisation refusée');
           return null;
         }
       }
       
       if (permission == LocationPermission.deniedForever) {
-        errorLogger.w('Permission de localisation refusée définitivement');
+        appLogger.w('Permission de localisation refusée définitivement');
         return null;
       }
       

@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import '../../../core/constants/app_colors.dart';
+import '../providers/profile_provider.dart';
+import '../../booking/providers/booking_provider.dart';
+import '../../listing/providers/listing_provider.dart';
+import '../../../repositories/favorite_repository.dart';
+import '../../../repositories/profile_repository.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   final Map<String, bool> _expandedSections = {
     'bookings': true,
     'favorites': false,
@@ -19,6 +26,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final profileAsync = ref.watch(currentProfileProvider);
+    final bookingsAsync = ref.watch(userBookingsProvider);
+    final favoritesAsync = ref.watch(favoriteListingsProvider);
 
     return Scaffold(
       backgroundColor: AppColors.woodBeige,
@@ -63,34 +73,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
             // Profile Header
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  CircleAvatar(
-                    radius: 64,
-                    backgroundImage: NetworkImage(
-                      'https://lh3.googleusercontent.com/aida-public/AB6AXuDZmKRejsJYXkCSXJgG0CqHd1tQD3MKSwH3H1wiTQLcwU-9HZmCd7N3y_iK6fLLMtgHwfsd65WCFIEpCTuF-JcAvr1mC7E5FzlYL1--NtpM_8oQ9nZzUSLR8e0IFMJ2rPDiZQ7B3Lb6ovKQ0fizoZBlOOYSm1TOJok1asvv4rjC-MS5-8MjmtYjn9Lyxv8WNB9zntu6xP4JAkldFEDlk2rx2SG_q1Z4184wQDrqB_K5_kNzwRT5h1RAJR07p3_5ACKNlLNLTHe1ThAU',
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Alexandre Tremblay',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.charcoal,
-                      fontFamily: 'PlusJakartaSans',
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Membre depuis Janvier 2023',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: AppColors.forestGreen,
-                      fontFamily: 'PlusJakartaSans',
-                    ),
-                  ),
-                ],
+              child: profileAsync.when(
+                data: (profile) {
+                  if (profile == null) {
+                    return const SizedBox.shrink();
+                  }
+                  return Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 64,
+                        backgroundImage: profile.avatarUrl != null
+                            ? NetworkImage(profile.avatarUrl!)
+                            : null,
+                        child: profile.avatarUrl == null
+                            ? Text(
+                                profile.fullName.isNotEmpty
+                                    ? profile.fullName[0].toUpperCase()
+                                    : 'U',
+                                style: const TextStyle(fontSize: 32),
+                              )
+                            : null,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        profile.fullName,
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.charcoal,
+                          fontFamily: 'PlusJakartaSans',
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Membre depuis ${DateFormat('MMMM yyyy', 'fr').format(profile.createdAt)}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: AppColors.forestGreen,
+                          fontFamily: 'PlusJakartaSans',
+                        ),
+                      ),
+                    ],
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, stack) => Text('Erreur: $error'),
               ),
             ),
             // Accordions
@@ -106,24 +133,54 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         _expandedSections['bookings'] = value;
                       });
                     },
-                    child: Column(
-                      children: [
-                        _buildBookingItem(
-                          imageUrl:
-                              'https://lh3.googleusercontent.com/aida-public/AB6AXuB5YAqSEA6Wup9HgrbcWTJ-E71lM1WTG7plGulo74iFLGltnK9llDIl_1jw8ZWKW0y_6nkB9a6vCGeBjwUUChm0B_y9vJLADvIJ4a94vf7wLzH5a0_zI7AydtD2U7sjczK61JC-UhHQsOSnkHxzMsH7yuioN-7Qw5U8oyK7_kCN8MQLBovLNbnDE400pe800U2xGXUL-pbb0zLumlGaviIKuVivr1SEUGmd4atpTusUw56V5i1ls3F8Q5UFU0OCdA4xXWuTLARJFK7V',
-                          title: 'Camping du Fjord',
-                          dates: '12 Juin 2023 - 15 Juin 2023',
-                          location: 'Saguenay, Québec',
+                    child: bookingsAsync.when(
+                      data: (bookings) {
+                        if (bookings.isEmpty) {
+                          return Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Text(
+                              'Aucune réservation',
+                              style: TextStyle(
+                                color: AppColors.textSecondary,
+                                fontFamily: 'PlusJakartaSans',
+                              ),
+                            ),
+                          );
+                        }
+                        return Column(
+                          children: [
+                            ...bookings.asMap().entries.map((entry) {
+                              final booking = entry.value;
+                              final isLast = entry.key == bookings.length - 1;
+                              return Column(
+                                children: [
+                                  FutureBuilder(
+                                    future: ref.read(listingDetailsProvider(booking.listingId).future),
+                                    builder: (context, snapshot) {
+                                      final listing = snapshot.data;
+                                      return _buildBookingItem(
+                                        imageUrl: listing?.imageUrl ?? '',
+                                        title: listing?.title ?? 'Listing',
+                                        dates: '${DateFormat('dd MMM yyyy', 'fr').format(booking.checkIn)} - ${DateFormat('dd MMM yyyy', 'fr').format(booking.checkOut)}',
+                                        location: '${listing?.city ?? ''}, ${listing?.region ?? ''}',
+                                      );
+                                    },
+                                  ),
+                                  if (!isLast) Divider(height: 1),
+                                ],
+                              );
+                            }),
+                          ],
+                        );
+                      },
+                      loading: () => const Center(child: CircularProgressIndicator()),
+                      error: (error, stack) => Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Text(
+                          'Erreur: $error',
+                          style: TextStyle(color: AppColors.error),
                         ),
-                        Divider(height: 1),
-                        _buildBookingItem(
-                          imageUrl:
-                              'https://lh3.googleusercontent.com/aida-public/AB6AXuDMScF8I3M9Hmyc06PFHclg2koEwECT-NM2LNAifw2GnBeuQuhA8EmBrw_6oPIguNJ2jqTZEJr_IoE9mgrZkgZLpm0q8Gk14q9LHshk1ognyS0POUT3mp8fOyuqg7b-0TjkoossNtRkVdKLX5RCgG0CCcBKYZI7lFSBaCnexGhAafyizzvmuAGxWOjEMNRXZEzuBh-qzy_rcIItJ56WS1TNPS4u36kkMlRJClPubeTCezojzlAxcw4KO-Y7pVegs2Aogmi8z5c3vCVg',
-                          title: 'Parc National de la Gaspésie',
-                          dates: '22 Juillet 2023 - 25 Juillet 2023',
-                          location: 'Gaspésie, Québec',
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                   const SizedBox(height: 12),

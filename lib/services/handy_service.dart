@@ -20,7 +20,7 @@ class HandyService {
     _apiKey = EnvConfig.handyApiKey;
     
     if (_baseUrl == null || _baseUrl!.isEmpty) {
-      errorLogger.w('URL API Handy non configurée');
+      appLogger.w('URL API Handy non configurée');
     }
   }
 
@@ -160,7 +160,7 @@ class HandyService {
       );
       return response.statusCode == 200;
     } catch (e) {
-      errorLogger.w('Handy service non disponible: $e');
+      appLogger.w('Handy service non disponible: $e');
       return false;
     }
   }

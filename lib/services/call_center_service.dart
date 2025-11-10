@@ -18,10 +18,10 @@ class CallCenterService {
     _apiKey = EnvConfig.callCenterApiKey;
     
     if (_baseUrl == null || _baseUrl!.isEmpty) {
-      errorLogger.w('URL API Call Center non configurée');
+      appLogger.w('URL API Call Center non configurée');
     }
     if (_apiKey == null || _apiKey!.isEmpty) {
-      errorLogger.w('Clé API Call Center non configurée');
+      appLogger.w('Clé API Call Center non configurée');
     }
   }
 

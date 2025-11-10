@@ -4,7 +4,6 @@ import 'core/config/env_config.dart';
 import 'core/constants/app_colors.dart';
 import 'core/utils/logger.dart';
 import 'services/service_factory.dart';
-import 'features/auth/providers/auth_provider.dart';
 import 'shared/routing/app_router.dart';
 
 void main() async {

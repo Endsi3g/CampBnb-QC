@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../listing/providers/listing_provider.dart';
 
-class HostDashboardScreen extends StatelessWidget {
+class HostDashboardScreen extends ConsumerWidget {
   const HostDashboardScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final userListingsAsync = ref.watch(userListingsProvider);
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
@@ -80,47 +83,70 @@ class HostDashboardScreen extends StatelessWidget {
             const SizedBox(height: 24),
             // Listings Section
             Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Vos Annonces',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: isDark ? AppColors.textDark : AppColors.textLight,
-                        fontFamily: 'PlusJakartaSans',
+              child: userListingsAsync.when(
+                data: (listings) {
+                  if (listings.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.camping,
+                            size: 64,
+                            color: AppColors.textSecondary,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Aucune annonce',
+                            style: TextStyle(
+                              color: AppColors.textSecondary,
+                              fontFamily: 'PlusJakartaSans',
+                            ),
+                          ),
+                        ],
                       ),
+                    );
+                  }
+                  return SingleChildScrollView(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Vos Annonces',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: isDark ? AppColors.textDark : AppColors.textLight,
+                            fontFamily: 'PlusJakartaSans',
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        ...listings.map((listing) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: _buildListingCard(
+                              context,
+                              title: listing.title,
+                              status: listing.status == 'active' ? 'Actif' : 'En attente',
+                              statusColor: listing.status == 'active' 
+                                  ? AppColors.primary 
+                                  : Colors.grey.shade500,
+                              imageUrl: listing.imageUrl,
+                              views: '0', // TODO: Ajouter les vues depuis la DB
+                              messages: '0', // TODO: Ajouter les messages depuis la DB
+                              bookings: '0', // TODO: Ajouter les réservations depuis la DB
+                              isDark: isDark,
+                            ),
+                          );
+                        }),
+                      ],
                     ),
-                    const SizedBox(height: 16),
-                    _buildListingCard(
-                      context,
-                      title: 'Bord de l\'eau à Sutton',
-                      status: 'Actif',
-                      statusColor: AppColors.primary,
-                      imageUrl:
-                          'https://lh3.googleusercontent.com/aida-public/AB6AXuAHrf-1SaldEurD1QUTnIu7puhJkFQdtrPKun6_G3OQ6LtdgNXsGWVgYTFQl_lMmufd2fq4M2R6sUomp9M7Kgp1MVAKrpQqlptGgErpdSKcCLDL-H0dcQFtIgTyttCwgemrxnjYQWHPZjCNpsEU87qLJzKQ0IZNO9HmX3YD21ThH2UItNV-WKGrNZQKIQCRgxoMTAuAX_oe9jzrXGw6yUjv8oAt83q8roym1g_poMP01UeNtIvSV63RzztRX4_Qeq6jD6MMUCqqmOth',
-                      views: '1.2k',
-                      messages: '5',
-                      bookings: '8',
-                      isDark: isDark,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildListingCard(
-                      context,
-                      title: 'Forêt enchantée à Magog',
-                      status: 'En attente',
-                      statusColor: Colors.grey.shade500,
-                      imageUrl:
-                          'https://lh3.googleusercontent.com/aida-public/AB6AXuBqgVccRQK3cpEPiOq3dSZF1Pgj1q3zQXRq10EMjMJ4M2J2qhHu1QYhskfPfO70b6x34v_w4lUbXZnVIomSBznoph_Xojfbs-1jxZ7MiXwevWQwgVMQ72qMJixsrbU0bKGe3n_QI5zsxdasV7kWaeSQiMVb2pPQlJHjoo6c7IbOoqaY94jvYuCNApUfrgpCb-mz77QsbUX3voNkDQULW8rYPQIGpa-7FDc0mejfZi6OB7xOPnKBNYzfgYk4r_9KpOmT4wG1Wt_qGT5I',
-                      views: '450',
-                      messages: '1',
-                      bookings: '2',
-                      isDark: isDark,
-                    ),
-                  ],
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, stack) => Center(
+                  child: Text('Erreur: $error'),
                 ),
               ),
             ),
