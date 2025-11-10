@@ -37,7 +37,7 @@ class SearchRepository {
         final queryLower = query.toLowerCase();
         listings = listings.where((listing) {
           return listing.title.toLowerCase().contains(queryLower) ||
-              (listing.description?.toLowerCase().contains(queryLower) ?? false) ||
+              listing.description.toLowerCase().contains(queryLower) ||
               listing.city.toLowerCase().contains(queryLower) ||
               listing.region.toLowerCase().contains(queryLower);
         }).toList();

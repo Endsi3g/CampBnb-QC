@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../services/service_factory.dart';
+import '../../services/call_center_service.dart';
 import '../../core/utils/logger.dart';
 
 /// Exemples d'utilisation des services intégrés
@@ -241,8 +242,8 @@ Sois amical et informatif.
             const SizedBox(height: 24),
 
             // Instructions
-            const Card(
-              color: Colors.blue50,
+            Card(
+              color: Colors.blue.shade50,
               child: Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Column(

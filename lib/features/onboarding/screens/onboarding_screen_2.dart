@@ -47,7 +47,7 @@ class OnboardingScreen2 extends StatelessWidget {
                         size: 180,
                         color: AppColors.secondary.withOpacity(0.3),
                       ),
-                      Icon(
+                      const Icon(
                         Icons.check_circle,
                         size: 96,
                         color: AppColors.primary,
@@ -110,7 +110,7 @@ class OnboardingScreen2 extends StatelessWidget {
                       Container(
                         width: 8,
                         height: 8,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: AppColors.primary,
                           shape: BoxShape.circle,
                         ),

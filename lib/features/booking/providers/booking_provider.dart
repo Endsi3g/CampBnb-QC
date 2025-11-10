@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../repositories/booking_repository.dart';
 import '../../../repositories/profile_repository.dart';
 import '../../../models/booking_model.dart';
+import '../../profile/providers/profile_provider.dart';
 
 part 'booking_provider.g.dart';
 

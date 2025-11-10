@@ -6,7 +6,24 @@ part of 'search_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$searchListingsHash() => r'926bbc197189bff1362e10d1d05ef957fdb23f52';
+String _$searchRepositoryHash() => r'8af75049dc278e6405e935f009af698a3f6214aa';
+
+/// See also [searchRepository].
+@ProviderFor(searchRepository)
+final searchRepositoryProvider = AutoDisposeProvider<SearchRepository>.internal(
+  searchRepository,
+  name: r'searchRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$searchRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef SearchRepositoryRef = AutoDisposeProviderRef<SearchRepository>;
+String _$searchListingsHash() => r'82a7fd12368ef72dbb830dacc7ccd6937e77a8d9';
 
 /// Copied from Dart SDK
 class _SystemHash {

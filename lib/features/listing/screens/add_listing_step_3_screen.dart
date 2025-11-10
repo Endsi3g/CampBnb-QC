@@ -79,7 +79,7 @@ class _AddListingStep3ScreenState extends State<AddListingStep3Screen> {
                 Container(
                   width: 8,
                   height: 8,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: AppColors.primary,
                     shape: BoxShape.circle,
                   ),
@@ -284,7 +284,7 @@ class _AddListingStep3ScreenState extends State<AddListingStep3Screen> {
                           Container(
                             width: 12,
                             height: 12,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: AppColors.secondary,
                               shape: BoxShape.circle,
                             ),
@@ -351,7 +351,7 @@ class _AddListingStep3ScreenState extends State<AddListingStep3Screen> {
                 onPressed: () => context.pop(),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: AppColors.primary,
-                  side: BorderSide(color: AppColors.primary),
+                  side: const BorderSide(color: AppColors.primary),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(9999),
                   ),

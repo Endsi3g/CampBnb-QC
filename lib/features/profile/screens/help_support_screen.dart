@@ -12,10 +12,10 @@ class HelpSupportScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.neutral,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppColors.charcoal),
+          icon: const Icon(Icons.arrow_back, color: AppColors.charcoal),
           onPressed: () => context.pop(),
         ),
-        title: Text(
+        title: const Text(
           'Aide et soutien',
           style: TextStyle(
             fontSize: 20,
@@ -40,8 +40,8 @@ class HelpSupportScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 8),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 16, right: 8),
                     child: Icon(Icons.search, color: AppColors.secondary),
                   ),
                   Expanded(
@@ -54,7 +54,7 @@ class HelpSupportScreen extends StatelessWidget {
                         ),
                         border: InputBorder.none,
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppColors.charcoal,
                         fontFamily: 'PlusJakartaSans',
                       ),
@@ -71,7 +71,7 @@ class HelpSupportScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Sujets populaires',
                     style: TextStyle(
                       fontSize: 18,
@@ -122,7 +122,7 @@ class HelpSupportScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                Text(
+                const Text(
                   'Besoin de plus d\'aide ?',
                   style: TextStyle(
                     fontSize: 16,
@@ -172,7 +172,7 @@ class HelpSupportScreen extends StatelessWidget {
                     ),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppColors.secondary,
-                      side: BorderSide(color: AppColors.secondary, width: 2),
+                      side: const BorderSide(color: AppColors.secondary, width: 2),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -201,7 +201,7 @@ class HelpSupportScreen extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: AppColors.charcoal,

@@ -1,0 +1,76 @@
+name: 🔄 Synchronisation Automatique
+
+on:
+  schedule:
+    # Exécute tous les jours à 2h du matin (UTC)
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Permet de déclencher manuellement
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - 'docs/**'
+
+jobs:
+  sync:
+    name: 🔄 Synchronisation GitHub
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: 📥 Checkout du code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: 🔧 Configuration Git
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+
+      - name: 🔍 Vérification des changements
+        id: check
+        run: |
+          git fetch origin
+          LOCAL=$(git rev-parse HEAD)
+          REMOTE=$(git rev-parse origin/main)
+          
+          if [ "$LOCAL" != "$REMOTE" ]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "🔄 Changements détectés"
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "✅ Aucun changement"
+          fi
+
+      - name: 🔄 Synchronisation automatique
+        if: steps.check.outputs.has_changes == 'true'
+        run: |
+          git pull origin main --rebase || true
+          git push origin main || true
+
+      - name: 📝 Création d'un commit de synchronisation
+        if: steps.check.outputs.has_changes == 'true'
+        run: |
+          git add -A || true
+          git commit -m "🔄 Synchronisation automatique - $(date +'%Y-%m-%d %H:%M:%S UTC')" || true
+          git push origin main || true
+
+      - name: 📊 Rapport de synchronisation
+        if: always()
+        run: |
+          echo "## 📊 Rapport de Synchronisation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Date**: $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branche**: main" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.check.outputs.has_changes }}" == "true" ]; then
+            echo "- **Statut**: ✅ Synchronisé" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- **Statut**: ℹ️ Aucun changement" >> $GITHUB_STEP_SUMMARY
+          fi
+

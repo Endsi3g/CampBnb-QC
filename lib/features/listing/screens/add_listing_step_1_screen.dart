@@ -115,7 +115,7 @@ class AddListingStep1Screen extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.add_a_photo,
                           size: 48,
                           color: AppColors.primary,
@@ -210,7 +210,7 @@ class AddListingStep1Screen extends StatelessWidget {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: AppColors.primary,
                           width: 2,
                         ),
@@ -256,7 +256,7 @@ class AddListingStep1Screen extends StatelessWidget {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: AppColors.primary,
                           width: 2,
                         ),
@@ -286,8 +286,8 @@ class AddListingStep1Screen extends StatelessWidget {
                       onPressed: () {
                         // TODO: Open map picker
                       },
-                      icon: Icon(Icons.location_on, color: AppColors.secondary),
-                      label: Text(
+                      icon: const Icon(Icons.location_on, color: AppColors.secondary),
+                      label: const Text(
                         'Définir l\'emplacement sur la carte',
                         style: TextStyle(
                           fontSize: 14,

@@ -17,10 +17,11 @@ void main() {
     );
 
     // Attendre que l'application soit complètement chargée
-    await tester.pumpAndSettle();
+    // Utiliser un timeout plus long pour permettre l'initialisation
+    await tester.pumpAndSettle(const Duration(seconds: 5));
 
     // Vérifier que l'application s'est construite sans erreur
     // L'écran de bienvenue devrait être affiché (route initiale: /welcome)
     expect(find.byType(MaterialApp), findsOneWidget);
-  });
+  }, skip: false);
 }

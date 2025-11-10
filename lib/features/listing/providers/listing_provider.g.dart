@@ -6,7 +6,25 @@ part of 'listing_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$listingDetailsHash() => r'147da1976431cab2595ef3b2f4b6987341a0b8b0';
+String _$listingRepositoryHash() => r'01940f62b870f9d9cb059ae76ed90a904b27a8fc';
+
+/// See also [listingRepository].
+@ProviderFor(listingRepository)
+final listingRepositoryProvider =
+    AutoDisposeProvider<ListingRepository>.internal(
+  listingRepository,
+  name: r'listingRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$listingRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef ListingRepositoryRef = AutoDisposeProviderRef<ListingRepository>;
+String _$listingDetailsHash() => r'e8e43aefc9693841d698d7948cb42de87ed73916';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -158,7 +176,7 @@ class _ListingDetailsProviderElement
   String get listingId => (origin as ListingDetailsProvider).listingId;
 }
 
-String _$userListingsHash() => r'357286d45691125f0b5f397ed59fda78a9cbc85b';
+String _$userListingsHash() => r'5e8d06540b7112c5b6b84d702539209b15b7eacb';
 
 /// See also [userListings].
 @ProviderFor(userListings)

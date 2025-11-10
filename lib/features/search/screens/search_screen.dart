@@ -53,8 +53,8 @@ class SearchScreen extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16, right: 8),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 16, right: 8),
                           child: Icon(
                             Icons.search,
                             color: AppColors.forestGreen,
@@ -111,7 +111,7 @@ class SearchScreen extends StatelessWidget {
                         height: 200,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                             image: NetworkImage(
                               'https://lh3.googleusercontent.com/aida-public/AB6AXuDVcfnwwNlf-_glIAofsRi5bAuV8EybCEe-J3gedNOiyW7CQx8Qi_ikMOP5lYkaCefmFr6nJBK74Niqr3plbtfWEKep1yBYO-DhiiFnQOkzlLXT7AZxLJ2V9QRIyncri6d9Ltz2hnMsoSvLQYTO7gPOLA8tBOV_Br5P_O6xSoH_c-0cSfo41tn8SqxTptbhcldU7UfuH6onDwnFLHEF4x6n31JvPjCD2nepnz2YyqJoDbRQbpoPhUBtD_A-riGVPjJY0F7-QJ22vnXR',
                             ),
@@ -325,7 +325,7 @@ class SearchScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
+                  const Text(
                     'Parc National de la Jacques-Cartier',
                     style: TextStyle(
                       fontSize: 14,
@@ -336,13 +336,13 @@ class SearchScreen extends StatelessWidget {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.star,
                         size: 16,
                         color: AppColors.forestGreen,
                       ),
                       const SizedBox(width: 4),
-                      Text(
+                      const Text(
                         '4.8',
                         style: TextStyle(
                           fontSize: 14,

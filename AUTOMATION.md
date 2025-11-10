@@ -4,7 +4,59 @@ Ce projet inclut plusieurs méthodes pour pousser automatiquement les changement
 
 ## 🚀 Méthodes disponibles
 
-### 1. Script PowerShell manuel (`auto-push.ps1`)
+### 1. GitHub Actions (Automatisation Cloud) ⭐ RECOMMANDÉ
+
+**Les workflows GitHub Actions s'exécutent automatiquement dans le cloud** et offrent une automatisation complète sans intervention locale.
+
+#### Workflows configurés :
+
+1. **🚀 CI/CD - Build & Tests** (`.github/workflows/ci.yml`)
+   - ✅ S'exécute automatiquement à chaque push sur `main` ou `develop`
+   - ✅ Exécute les tests Flutter
+   - ✅ Analyse le code (lint)
+   - ✅ Build pour toutes les plateformes (Linux, Windows, macOS, Web, Android)
+   - ✅ Upload des artefacts de build
+
+2. **🐍 Backend CI/CD** (`.github/workflows/backend-ci.yml`)
+   - ✅ Tests du backend Python
+   - ✅ Analyse du code (flake8, black)
+   - ✅ Build et push d'images Docker vers GitHub Container Registry
+   - ✅ S'exécute uniquement si le backend est modifié
+
+3. **🔄 Synchronisation Automatique** (`.github/workflows/auto-sync.yml`)
+   - ✅ S'exécute tous les jours à 2h UTC
+   - ✅ Peut être déclenché manuellement
+   - ✅ Synchronise automatiquement les changements
+   - ✅ Crée des commits de synchronisation si nécessaire
+
+4. **🚀 Release Automatique** (`.github/workflows/release.yml`)
+   - ✅ Crée automatiquement une release lors de la création d'un tag `v*.*.*`
+   - ✅ Build les artefacts (APK, Web)
+   - ✅ Publie la release sur GitHub avec les artefacts
+
+#### Comment utiliser :
+
+**Automatique :**
+- Les workflows s'exécutent automatiquement à chaque push
+- Consultez l'onglet **Actions** sur GitHub pour voir les résultats
+
+**Manuel :**
+1. Allez sur votre dépôt GitHub
+2. Cliquez sur l'onglet **Actions**
+3. Sélectionnez le workflow souhaité
+4. Cliquez sur **Run workflow**
+
+**Voir les résultats :**
+- Onglet **Actions** → Cliquez sur un workflow → Voir les logs et artefacts
+
+#### Avantages :
+- ✅ Aucune configuration locale nécessaire
+- ✅ S'exécute dans le cloud (pas besoin que votre PC soit allumé)
+- ✅ Builds pour toutes les plateformes automatiquement
+- ✅ Tests et validation automatiques
+- ✅ Historique complet des builds et tests
+
+### 2. Script PowerShell manuel (`auto-push.ps1`)
 
 Le moyen le plus simple pour pousser rapidement tous les changements :
 
@@ -23,7 +75,7 @@ Le moyen le plus simple pour pousser rapidement tous les changements :
 - ✅ Récupère les changements distants (pull avec rebase)
 - ✅ Pousse vers GitHub
 
-### 2. Surveillance automatique (`watch-changes.ps1`)
+### 3. Surveillance automatique (`watch-changes.ps1`)
 
 Surveille le dossier et pousse automatiquement les changements à intervalles réguliers :
 
@@ -43,7 +95,7 @@ Surveille le dossier et pousse automatiquement les changements à intervalles r�
 - Il vérifiera automatiquement les changements et les poussera
 - Appuyez sur `Ctrl+C` pour arrêter
 
-### 3. Hooks Git automatiques
+### 4. Hooks Git automatiques
 
 Des hooks Git ont été configurés pour pousser automatiquement après chaque commit :
 
@@ -58,7 +110,7 @@ Ces hooks s'exécutent automatiquement après chaque `git commit`.
 icacls .git\hooks\post-commit.ps1 /grant Everyone:RX
 ```
 
-### 4. Tâche planifiée Windows (Optionnel)
+### 5. Tâche planifiée Windows (Optionnel)
 
 Pour une automatisation complète 24/7, vous pouvez créer une tâche planifiée Windows :
 
@@ -74,20 +126,30 @@ Pour une automatisation complète 24/7, vous pouvez créer une tâche planifiée
 
 ### Pour un développement actif :
 
-1. **Option 1 - Hook automatique (recommandé)** :
+1. **Option 1 - GitHub Actions (RECOMMANDÉ)** ⭐ :
+   - Travaillez normalement
+   - Faites vos commits et push : `git push`
+   - Les workflows GitHub Actions s'exécutent automatiquement dans le cloud
+   - Tests, builds et validations sont effectués automatiquement
+   - Consultez l'onglet **Actions** sur GitHub pour voir les résultats
+
+2. **Option 2 - Hook automatique** :
    - Travaillez normalement
    - Faites vos commits : `git commit -m "votre message"`
-   - Le hook poussera automatiquement
+   - Le hook poussera automatiquement vers GitHub
+   - Les workflows GitHub Actions se déclencheront ensuite
 
-2. **Option 2 - Script manuel** :
+3. **Option 3 - Script manuel** :
    - Travaillez normalement
    - Quand vous voulez sauvegarder : `.\auto-push.ps1`
    - Tout est automatiquement poussé
+   - Les workflows GitHub Actions se déclencheront ensuite
 
-3. **Option 3 - Surveillance continue** :
+4. **Option 4 - Surveillance continue** :
    - Lancez `.\watch-changes.ps1` en arrière-plan
    - Travaillez normalement
    - Les changements seront poussés automatiquement toutes les X minutes
+   - Les workflows GitHub Actions se déclencheront ensuite
 
 ## ⚙️ Configuration Git
 
@@ -141,4 +203,27 @@ Si vous êtes souvent demandé de vous authentifier, configurez :
 - Les scripts incluent des messages de commit automatiques avec timestamp
 - Tous les scripts vérifient d'abord s'il y a des changements
 - Les erreurs sont affichées clairement avec des couleurs
+- **GitHub Actions** est la méthode la plus robuste et ne nécessite aucune configuration locale
+- Les workflows GitHub Actions s'exécutent même si votre PC est éteint
+
+## 🔧 Configuration GitHub Actions
+
+### Secrets nécessaires (optionnel)
+
+Pour certaines fonctionnalités avancées, vous pouvez configurer des secrets dans GitHub :
+
+1. Allez sur votre dépôt GitHub → **Settings** → **Secrets and variables** → **Actions**
+2. Ajoutez les secrets suivants si nécessaire :
+   - `GITHUB_TOKEN` : Généré automatiquement par GitHub (déjà disponible)
+   - `SUPABASE_URL` : URL de votre projet Supabase (si nécessaire)
+   - `SUPABASE_ANON_KEY` : Clé anonyme Supabase (si nécessaire)
+   - `GEMINI_API_KEY` : Clé API Gemini (si nécessaire)
+   - `GOOGLE_MAPS_API_KEY` : Clé API Google Maps (si nécessaire)
+
+### Vérifier que les workflows fonctionnent
+
+1. Allez sur l'onglet **Actions** de votre dépôt GitHub
+2. Vous devriez voir les workflows listés
+3. Après un push, les workflows s'exécutent automatiquement
+4. Cliquez sur un workflow pour voir les détails et les logs
 

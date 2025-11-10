@@ -62,7 +62,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(
+            image: const NetworkImage(
               'https://lh3.googleusercontent.com/aida-public/AB6AXuD5SskHcjxlcNlq3JnuZFU_9EnYq_UrNsgSj6CAF0igHA8XPesc-hh7be--p8tA4zljrEcCkqY1KZaRLgguoBVaygxi5WbUOR6krTdJkQDS4IX_yWrDpcebx9a_2rCZmj6rs2co25IrSbqcYo4Pi5vIMZyO9wbXpM68c10VXllFV9VFJMMlFDTEGW0Qdwi-wnWUFWP9x1DM3XHihAeSHbPdnPBeq3pbVjbndzos25W1ow4v_ZVuO6YTfSDVs-Np41M7VjGW9gGE3fmG',
             ),
             fit: BoxFit.cover,
@@ -92,7 +92,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.forest,
                           size: 32,
                           color: AppColors.primary,
@@ -283,8 +283,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                             color: isDark ? Colors.grey.shade400 : AppColors.textPrimary,
                             fontFamily: 'PlusJakartaSans',
                           ),
-                          children: [
-                            const TextSpan(text: 'Déjà un compte ? '),
+                          children: const [
+                            TextSpan(text: 'Déjà un compte ? '),
                             TextSpan(
                               text: 'Connectez-vous',
                               style: TextStyle(
@@ -393,8 +393,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                       color: isDark ? Colors.grey.shade600 : Colors.grey.shade300,
                     ),
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.only(
+                  focusedBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.only(
                       topRight: Radius.circular(12),
                       bottomRight: Radius.circular(12),
                     ),
@@ -498,7 +498,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                       color: isDark ? Colors.grey.shade600 : Colors.grey.shade300,
                     ),
                   ),
-                  focusedBorder: OutlineInputBorder(
+                  focusedBorder: const OutlineInputBorder(
                     borderRadius: BorderRadius.zero,
                     borderSide: BorderSide(
                       color: AppColors.primary,

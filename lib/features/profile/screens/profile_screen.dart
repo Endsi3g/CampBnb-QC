@@ -25,23 +25,23 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    // final isDark = Theme.of(context).brightness == Brightness.dark; // Utilisé dans le futur
     final profileAsync = ref.watch(currentProfileProvider);
     final bookingsAsync = ref.watch(userBookingsProvider);
-    final favoritesAsync = ref.watch(favoriteListingsProvider);
+    // final favoritesAsync = ref.watch(favoriteListingsProvider); // Utilisé dans le futur
 
     return Scaffold(
       backgroundColor: AppColors.woodBeige,
       appBar: AppBar(
         backgroundColor: AppColors.woodBeige,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: AppColors.charcoal,
           ),
           onPressed: () => context.pop(),
         ),
-        title: Text(
+        title: const Text(
           'Profil',
           style: TextStyle(
             fontSize: 18,
@@ -54,7 +54,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         actions: [
           TextButton(
             onPressed: () => context.push('/settings'),
-            child: Text(
+            child: const Text(
               'Modifier',
               style: TextStyle(
                 fontSize: 16,
@@ -97,7 +97,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       const SizedBox(height: 16),
                       Text(
                         profile.fullName,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: AppColors.charcoal,
@@ -107,7 +107,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       const SizedBox(height: 4),
                       Text(
                         'Membre depuis ${DateFormat('MMMM yyyy', 'fr').format(profile.createdAt)}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           color: AppColors.forestGreen,
                           fontFamily: 'PlusJakartaSans',
@@ -136,8 +136,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     child: bookingsAsync.when(
                       data: (bookings) {
                         if (bookings.isEmpty) {
-                          return Padding(
-                            padding: const EdgeInsets.all(16),
+                          return const Padding(
+                            padding: EdgeInsets.all(16),
                             child: Text(
                               'Aucune réservation',
                               style: TextStyle(
@@ -166,7 +166,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                       );
                                     },
                                   ),
-                                  if (!isLast) Divider(height: 1),
+                                  if (!isLast) const Divider(height: 1),
                                 ],
                               );
                             }),
@@ -178,7 +178,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         padding: const EdgeInsets.all(16),
                         child: Text(
                           'Erreur: $error',
-                          style: TextStyle(color: AppColors.error),
+                          style: const TextStyle(color: AppColors.error),
                         ),
                       ),
                     ),
@@ -240,7 +240,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       child: ExpansionTile(
         title: Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
             color: AppColors.charcoal,
@@ -249,7 +249,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ),
         initiallyExpanded: isExpanded,
         onExpansionChanged: onExpansionChanged,
-        trailing: Icon(
+        trailing: const Icon(
           Icons.expand_more,
           color: AppColors.charcoal,
         ),
@@ -276,7 +276,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       ),
       title: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
           color: AppColors.charcoal,
@@ -288,7 +288,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         children: [
           Text(
             dates,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               color: AppColors.forestGreen,
               fontFamily: 'PlusJakartaSans',
@@ -304,7 +304,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ),
         ],
       ),
-      trailing: Icon(
+      trailing: const Icon(
         Icons.chevron_right,
         color: AppColors.charcoal,
       ),
@@ -332,7 +332,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       ),
       title: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
           color: AppColors.charcoal,
@@ -347,7 +347,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           fontFamily: 'PlusJakartaSans',
         ),
       ),
-      trailing: Icon(
+      trailing: const Icon(
         Icons.favorite,
         color: AppColors.lakeBlue,
         size: 28,
@@ -406,7 +406,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 Text(
                   badge['label'] as String,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                     color: AppColors.charcoal,

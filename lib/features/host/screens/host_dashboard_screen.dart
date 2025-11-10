@@ -23,7 +23,7 @@ class HostDashboardScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  const Row(
                     children: [
                       CircleAvatar(
                         radius: 20,
@@ -91,12 +91,12 @@ class HostDashboardScreen extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.camping,
+                            Icons.forest,
                             size: 64,
                             color: AppColors.textSecondary,
                           ),
                           const SizedBox(height: 16),
-                          Text(
+                          const Text(
                             'Aucune annonce',
                             style: TextStyle(
                               color: AppColors.textSecondary,
@@ -222,7 +222,7 @@ class HostDashboardScreen extends ConsumerWidget {
           const SizedBox(height: 4),
           Text(
             change,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
               color: AppColors.primary,
@@ -347,7 +347,7 @@ class HostDashboardScreen extends ConsumerWidget {
         const SizedBox(width: 4),
         Text(
           value,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.bold,
             color: AppColors.secondary,

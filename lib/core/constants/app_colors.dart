@@ -45,5 +45,9 @@ class AppColors {
   static const Color darkBackground = Color(0xFF152210);
   static const Color darkSurface = Color(0xFF2A3F29);
   static const Color darkText = Color(0xFFE0E0E0);
+  
+  // Couleurs supplémentaires utilisées dans l'application
+  static const Color softGray = Color(0xFFE5E5E5);
+  static const Color textColor = textPrimary;
 }
 

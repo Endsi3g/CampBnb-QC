@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campbnb Québec - Test HTML</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="nav-icon">🏕️</span>
+                <span class="nav-title">Campbnb Québec</span>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-icon" id="themeToggle" aria-label="Changer le thème">
+                    <span class="icon">🌙</span>
+                </button>
+                <button class="btn-icon" id="menuToggle" aria-label="Menu">
+                    <span class="icon">☰</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search Bar -->
+    <div class="search-section">
+        <div class="search-container">
+            <div class="search-box" id="searchBox">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Lieu, hébergement, dates" id="searchInput">
+            </div>
+            <div class="filter-chips">
+                <button class="filter-chip" data-filter="price">Prix</button>
+                <button class="filter-chip active" data-filter="type">Type</button>
+                <button class="filter-chip" data-filter="region">Région</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Home View -->
+        <div class="view active" id="homeView">
+            <div class="listings-grid" id="listingsGrid">
+                <!-- Listings will be inserted here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Listing Detail View -->
+        <div class="view" id="detailView">
+            <button class="back-button" id="backButton">
+                <span>←</span> Retour
+            </button>
+            <div class="listing-detail" id="listingDetail">
+                <!-- Detail content will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Search View -->
+        <div class="view" id="searchView">
+            <div class="search-results" id="searchResults">
+                <!-- Search results will be inserted here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav" id="bottomNav">
+        <button class="nav-item active" data-view="home">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Accueil</span>
+        </button>
+        <button class="nav-item" data-view="favorites">
+            <span class="nav-icon">❤️</span>
+            <span class="nav-label">Favoris</span>
+        </button>
+        <button class="nav-item" data-view="bookings">
+            <span class="nav-icon">📅</span>
+            <span class="nav-label">Réservations</span>
+        </button>
+        <button class="nav-item" data-view="profile">
+            <span class="nav-icon">👤</span>
+            <span class="nav-label">Profil</span>
+        </button>
+    </nav>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
