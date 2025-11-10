@@ -1,5 +1,4 @@
-# Workflow Flutter - utilise flutter au lieu de dart pur
-name: Flutter Build & Test
+name: Flutter CI
 
 on:
   push:
@@ -31,3 +30,17 @@ jobs:
 
       - name: Run tests
         run: flutter test
+
+      - name: Build APK (Android)
+        run: flutter build apk --release
+        continue-on-error: true
+
+      - name: Build iOS (macOS only)
+        if: runner.os == 'macOS'
+        run: flutter build ios --release --no-codesign
+        continue-on-error: true
+
+      - name: Build Web
+        run: flutter build web --release
+        continue-on-error: true
+
