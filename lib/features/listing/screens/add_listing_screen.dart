@@ -129,7 +129,7 @@ class _AddListingScreenState extends ConsumerState<AddListingScreen> {
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
-              value: _selectedType,
+              initialValue: _selectedType,
               decoration: const InputDecoration(
                 labelText: 'Type de camping',
                 border: OutlineInputBorder(),
@@ -160,7 +160,7 @@ class _AddListingScreenState extends ConsumerState<AddListingScreen> {
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
-              value: _selectedRegion,
+              initialValue: _selectedRegion,
               decoration: const InputDecoration(
                 labelText: 'Région',
                 border: OutlineInputBorder(),

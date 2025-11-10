@@ -70,11 +70,11 @@ class ListingCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Icon(Icons.location_on, size: 14, color: AppColors.textSecondary),
+                      const Icon(Icons.location_on, size: 14, color: AppColors.textSecondary),
                       const SizedBox(width: 4),
                       Text(
                         '${listing.city}, ${listing.region}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           color: AppColors.textSecondary,
                         ),
@@ -88,7 +88,7 @@ class ListingCard extends StatelessWidget {
                       Row(
                         children: [
                           if (listing.ratingAverage > 0) ...[
-                            Icon(Icons.star, size: 16, color: Colors.amber),
+                            const Icon(Icons.star, size: 16, color: Colors.amber),
                             const SizedBox(width: 4),
                             Text(
                               listing.ratingAverage.toStringAsFixed(1),
@@ -99,7 +99,7 @@ class ListingCard extends StatelessWidget {
                       ),
                       Text(
                         '\$${listing.pricePerNight.toStringAsFixed(2)}/nuit',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: AppColors.forestGreen,

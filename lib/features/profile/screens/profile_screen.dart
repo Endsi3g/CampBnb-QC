@@ -63,7 +63,7 @@ class ProfileScreen extends ConsumerWidget {
                         const SizedBox(height: 8),
                         Text(
                           profile.location!,
-                          style: TextStyle(color: AppColors.textSecondary),
+                          style: const TextStyle(color: AppColors.textSecondary),
                         ),
                       ],
                     ],

@@ -84,7 +84,7 @@ class _AiChatScreenState extends ConsumerState<AiChatScreen> {
           // Messages
           Expanded(
             child: chatHistory.isEmpty
-                ? Center(
+                ? const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -93,7 +93,7 @@ class _AiChatScreenState extends ConsumerState<AiChatScreen> {
                           size: 64,
                           color: AppColors.textSecondary,
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
                         Text(
                           'Bonjour! Je suis Campy, votre assistant IA.\nComment puis-je vous aider?',
                           textAlign: TextAlign.center,

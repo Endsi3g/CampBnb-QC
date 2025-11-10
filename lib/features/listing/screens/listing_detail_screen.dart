@@ -79,7 +79,7 @@ class ListingDetailScreen extends ConsumerWidget {
                           ),
                           Text(
                             '\$${listing.pricePerNight.toStringAsFixed(2)}/nuit',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                               color: AppColors.forestGreen,
                               fontWeight: FontWeight.bold,
@@ -91,11 +91,11 @@ class ListingDetailScreen extends ConsumerWidget {
                       // Localisation
                       Row(
                         children: [
-                          Icon(Icons.location_on, size: 16, color: AppColors.textSecondary),
+                          const Icon(Icons.location_on, size: 16, color: AppColors.textSecondary),
                           const SizedBox(width: 4),
                           Text(
                             '${listing.city}, ${listing.region}',
-                            style: TextStyle(color: AppColors.textSecondary),
+                            style: const TextStyle(color: AppColors.textSecondary),
                           ),
                         ],
                       ),

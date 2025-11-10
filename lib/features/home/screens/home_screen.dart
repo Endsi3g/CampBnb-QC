@@ -38,7 +38,7 @@ class HomeScreen extends ConsumerWidget {
                 children: [
                   Icon(Icons.camping, size: 64, color: AppColors.textSecondary),
                   const SizedBox(height: 16),
-                  Text(
+                  const Text(
                     AppStrings.noResults,
                     style: TextStyle(color: AppColors.textSecondary),
                   ),

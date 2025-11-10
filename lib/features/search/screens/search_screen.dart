@@ -67,7 +67,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   children: [
                     Expanded(
                       child: DropdownButtonFormField<String>(
-                        value: _selectedRegion,
+                        initialValue: _selectedRegion,
                         decoration: const InputDecoration(
                           labelText: 'Région',
                           border: OutlineInputBorder(),
@@ -84,7 +84,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     const SizedBox(width: 8),
                     Expanded(
                       child: DropdownButtonFormField<String>(
-                        value: _selectedType,
+                        initialValue: _selectedType,
                         decoration: const InputDecoration(
                           labelText: 'Type',
                           border: OutlineInputBorder(),
@@ -116,7 +116,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             child: listingsAsync.when(
               data: (listings) {
                 if (listings.isEmpty) {
-                  return Center(
+                  return const Center(
                     child: Text(
                       AppStrings.noResults,
                       style: TextStyle(color: AppColors.textSecondary),
