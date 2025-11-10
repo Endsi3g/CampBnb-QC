@@ -1,3 +1,5 @@
+# CampBnb-QC
+
 # Campbnb - Application de Réservation de Camping au Québec
 
 Application Flutter mobile permettant de rechercher, réserver et gérer des emplacements de camping au Québec, avec intégration d'intelligence artificielle (Gemini 2.5) pour des recommandations personnalisées.
