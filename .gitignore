@@ -116,3 +116,6 @@ coverage/
 
 # Exclude Flutter SDK (si vous avez inclus le SDK Flutter dans le projet)
 flutter/
+
+# Exclude embedded Git repositories
+integrations/

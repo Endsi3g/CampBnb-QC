@@ -19,7 +19,9 @@ Permettre aux utilisateurs de :
 - **Géolocalisation** : Google Maps API
 - **Paiements** : Stripe (intégration future)
 - **Notifications** : Firebase Cloud Messaging
-- **IA** : Gemini 2.5 API (gratuite)
+- **IA** : Gemini 2.5 API (gratuite) + LocalAI (alternative locale)
+- **Call Center** : Microsoft Call Center AI (appels téléphoniques avec IA)
+- **Speech-to-Text** : Handy (transcription vocale offline)
 - **CI/CD** : GitHub Actions
 
 ## 📋 Fonctionnalités MVP
@@ -45,6 +47,9 @@ Permettre aux utilisateurs de :
 - 🤖 Traduction FR/EN
 - 🤖 Génération d'itinéraires
 - 🤖 Analyse de photos
+- 🤖 LocalAI (alternative locale à Gemini)
+- 📞 Appels téléphoniques avec assistant IA (Call Center AI)
+- 🎤 Transcription vocale offline (Handy)
 
 ## 🏗️ Architecture
 
@@ -115,6 +120,17 @@ Voir la documentation complète dans le dossier `docs/` :
 - `docs/database/schema.sql` - Schéma de base de données
 - `docs/flows.md` - Flux utilisateur
 - `docs/gemini-prompts.md` - Exemples de prompts Gemini
+- `docs/integrations.md` - **Guide d'intégration Call Center AI, LocalAI et Handy**
+
+## 🔌 Intégrations
+
+L'application intègre trois repositories externes pour des fonctionnalités avancées :
+
+1. **Call Center AI** (Microsoft) - Système de centre d'appel avec IA pour le support client
+2. **LocalAI** (mudler) - Alternative locale à OpenAI/Gemini pour les fonctionnalités IA
+3. **Handy** (cjpais) - Service de transcription vocale offline
+
+Voir `docs/integrations.md` pour les détails d'installation et d'utilisation.
 
 ## 🧪 Tests
 

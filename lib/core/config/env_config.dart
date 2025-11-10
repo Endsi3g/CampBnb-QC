@@ -51,6 +51,19 @@ class EnvConfig {
   // Firebase
   static String get firebaseProjectId => dotenv.env['FIREBASE_PROJECT_ID'] ?? '';
   
+  // Call Center AI
+  static String get callCenterApiBaseUrl => dotenv.env['CALL_CENTER_API_BASE_URL'] ?? '';
+  static String get callCenterApiKey => dotenv.env['CALL_CENTER_API_KEY'] ?? '';
+  
+  // LocalAI
+  static String get localAIBaseUrl => dotenv.env['LOCALAI_BASE_URL'] ?? 'http://localhost:8080';
+  static String get localAIApiKey => dotenv.env['LOCALAI_API_KEY'] ?? '';
+  static String? get localAIModel => dotenv.env['LOCALAI_MODEL'];
+  
+  // Handy (Speech-to-Text)
+  static String get handyApiBaseUrl => dotenv.env['HANDY_API_BASE_URL'] ?? '';
+  static String get handyApiKey => dotenv.env['HANDY_API_KEY'] ?? '';
+  
   static bool get isConfigured => 
     supabaseUrl.isNotEmpty && 
     supabaseAnonKey.isNotEmpty &&

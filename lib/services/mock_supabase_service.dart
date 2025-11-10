@@ -59,8 +59,8 @@ class MockSupabaseService {
     await Future.delayed(const Duration(milliseconds: 500)); // Simuler latence
     
     _currentUserId = 'mock_user_${DateTime.now().millisecondsSinceEpoch}';
-    final profile = _mockData.getMockProfile(_currentUserId!);
-    profile.email = email;
+    final baseProfile = _mockData.getMockProfile(_currentUserId!);
+    final profile = baseProfile.copyWith(email: email);
     _profiles[_currentUserId!] = profile;
     _favorites[_currentUserId!] = [];
     
@@ -81,8 +81,8 @@ class MockSupabaseService {
     // Créer un utilisateur mock s'il n'existe pas
     if (_currentUserId == null) {
       _currentUserId = 'mock_user_${email.hashCode}';
-      final profile = _mockData.getMockProfile(_currentUserId!);
-      profile.email = email;
+      final baseProfile = _mockData.getMockProfile(_currentUserId!);
+      final profile = baseProfile.copyWith(email: email);
       _profiles[_currentUserId!] = profile;
       _favorites[_currentUserId!] = _mockData.getMockFavorites(_currentUserId!);
     }
@@ -169,7 +169,35 @@ class MockSupabaseService {
   Future<String> createListing(ListingModel listing) async {
     await Future.delayed(const Duration(milliseconds: 500));
     final newId = 'mock_listing_${DateTime.now().millisecondsSinceEpoch}';
-    final newListing = listing.copyWith(id: newId);
+    // Note: ListingModel n'a pas de copyWith, on crée un nouveau avec le nouvel ID
+    final newListing = ListingModel(
+      id: newId,
+      hostId: listing.hostId,
+      title: listing.title,
+      description: listing.description,
+      listingType: listing.listingType,
+      address: listing.address,
+      city: listing.city,
+      region: listing.region,
+      postalCode: listing.postalCode,
+      latitude: listing.latitude,
+      longitude: listing.longitude,
+      pricePerNight: listing.pricePerNight,
+      maxGuests: listing.maxGuests,
+      minNights: listing.minNights,
+      maxNights: listing.maxNights,
+      amenities: listing.amenities,
+      photos: listing.photos,
+      houseRules: listing.houseRules,
+      cancellationPolicy: listing.cancellationPolicy,
+      status: listing.status,
+      isFeatured: listing.isFeatured,
+      viewCount: listing.viewCount,
+      ratingAverage: listing.ratingAverage,
+      reviewCount: listing.reviewCount,
+      createdAt: listing.createdAt,
+      updatedAt: DateTime.now(),
+    );
     _listings[newId] = newListing;
     appLogger.i('Listing mock créé: $newId');
     return newId;
@@ -194,7 +222,27 @@ class MockSupabaseService {
   Future<String> createBooking(BookingModel booking) async {
     await Future.delayed(const Duration(milliseconds: 500));
     final newId = 'mock_booking_${DateTime.now().millisecondsSinceEpoch}';
-    final newBooking = booking.copyWith(id: newId);
+    // Note: BookingModel n'a pas de copyWith, on crée un nouveau avec le nouvel ID
+    final newBooking = BookingModel(
+      id: newId,
+      listingId: booking.listingId,
+      guestId: booking.guestId,
+      checkIn: booking.checkIn,
+      checkOut: booking.checkOut,
+      nights: booking.nights,
+      guests: booking.guests,
+      totalPrice: booking.totalPrice,
+      depositAmount: booking.depositAmount,
+      status: booking.status,
+      paymentStatus: booking.paymentStatus,
+      paymentIntentId: booking.paymentIntentId,
+      guestMessage: booking.guestMessage,
+      hostResponse: booking.hostResponse,
+      createdAt: booking.createdAt,
+      updatedAt: DateTime.now(),
+      confirmedAt: booking.confirmedAt,
+      cancelledAt: booking.cancelledAt,
+    );
     _bookings[newId] = newBooking;
     appLogger.i('Réservation mock créée: $newId');
     return newId;
@@ -219,7 +267,28 @@ class MockSupabaseService {
     await Future.delayed(const Duration(milliseconds: 300));
     final booking = _bookings[id];
     if (booking != null) {
-      _bookings[id] = booking.copyWith(status: status);
+      // Note: BookingModel n'a pas de copyWith, on crée un nouveau
+      final updatedBooking = BookingModel(
+        id: booking.id,
+        listingId: booking.listingId,
+        guestId: booking.guestId,
+        checkIn: booking.checkIn,
+        checkOut: booking.checkOut,
+        nights: booking.nights,
+        guests: booking.guests,
+        totalPrice: booking.totalPrice,
+        depositAmount: booking.depositAmount,
+        status: status,
+        paymentStatus: booking.paymentStatus,
+        paymentIntentId: booking.paymentIntentId,
+        guestMessage: booking.guestMessage,
+        hostResponse: booking.hostResponse,
+        createdAt: booking.createdAt,
+        updatedAt: DateTime.now(),
+        confirmedAt: booking.confirmedAt,
+        cancelledAt: booking.cancelledAt,
+      );
+      _bookings[id] = updatedBooking;
       appLogger.i('Statut réservation mock mis à jour: $id -> $status');
     }
   }

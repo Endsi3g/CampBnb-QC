@@ -36,6 +36,10 @@ class AppColors {
   static const Color offWhite = Color(0xFFFFFFFF);
   static const Color inactive = Color(0xFFD3C5AA);
   static const Color trophyGold = Color(0xFFFFD700);
+  static const Color charcoalGrey = Color(0xFF333333);
+  static const Color textMain = Color(0xFF3E362E);
+  static const Color cardLight = Color(0xFFFFFFFF);
+  static const Color cardDark = Color(0xFF232F20);
   
   // Couleurs pour dark mode
   static const Color darkBackground = Color(0xFF152210);

@@ -379,6 +379,10 @@ class HomeScreen extends ConsumerWidget {
             label: 'Favoris',
             isSelected: false,
             isDark: isDark,
+            onTap: () {
+              // TODO: Navigate to favorites screen
+              // context.push('/favorites');
+            },
           ),
           _buildNavItem(
             context,
@@ -386,6 +390,10 @@ class HomeScreen extends ConsumerWidget {
             label: 'Réservations',
             isSelected: false,
             isDark: isDark,
+            onTap: () {
+              // TODO: Navigate to bookings screen
+              // context.push('/bookings');
+            },
           ),
           _buildNavItem(
             context,

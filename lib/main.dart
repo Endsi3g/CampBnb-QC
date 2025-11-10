@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'core/config/env_config.dart';
 import 'core/constants/app_colors.dart';
-import 'services/supabase_service.dart';
-import 'services/gemini_service.dart';
+import 'core/utils/logger.dart';
+import 'services/service_factory.dart';
 import 'features/auth/providers/auth_provider.dart';
 import 'shared/routing/app_router.dart';
 
@@ -14,11 +14,15 @@ void main() async {
   // Charger les variables d'environnement
   await EnvConfig.load();
   
-  // Initialiser Supabase
-  await SupabaseService().initialize();
+  // Initialiser les services (réels ou mock selon le mode)
+  await ServiceFactory.initializeAll();
   
-  // Initialiser Gemini
-  GeminiService().initialize();
+  // Afficher le mode actuel
+  if (EnvConfig.isSandboxMode) {
+    appLogger.i('🚀 Mode SANDBOX activé - L\'application fonctionne sans APIs externes');
+  } else {
+    appLogger.i('🌐 Mode PRODUCTION - Connexion aux APIs réelles');
+  }
   
   runApp(
     const ProviderScope(
@@ -40,18 +44,28 @@ class CampbnbApp extends ConsumerWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.forestGreen,
+          seedColor: AppColors.primary,
           brightness: Brightness.light,
+          primary: AppColors.primary,
+          secondary: AppColors.secondary,
+          background: AppColors.backgroundLight,
+          surface: AppColors.surfaceLight,
         ),
-        fontFamily: 'Montserrat',
+        fontFamily: 'PlusJakartaSans',
+        scaffoldBackgroundColor: AppColors.backgroundLight,
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.forestGreen,
+          seedColor: AppColors.primary,
           brightness: Brightness.dark,
+          primary: AppColors.primary,
+          secondary: AppColors.secondary,
+          background: AppColors.backgroundDark,
+          surface: AppColors.surfaceDark,
         ),
-        fontFamily: 'Montserrat',
+        fontFamily: 'PlusJakartaSans',
+        scaffoldBackgroundColor: AppColors.backgroundDark,
       ),
       themeMode: ThemeMode.system,
       routerConfig: router,
