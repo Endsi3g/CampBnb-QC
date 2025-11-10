@@ -1,9 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../services/supabase_service.dart';
+import '../../../repositories/search_repository.dart';
 import '../../../models/listing_model.dart';
 
 part 'search_provider.g.dart';
+
+@riverpod
+SearchRepository searchRepository(SearchRepositoryRef ref) {
+  return SearchRepository();
+}
 
 @riverpod
 class SearchFilters extends _$SearchFilters {
@@ -25,9 +30,10 @@ Future<List<ListingModel>> searchListings(
   String? query,
 }) async {
   final filters = ref.watch(searchFiltersProvider);
-  final supabase = SupabaseService();
+  final repository = ref.watch(searchRepositoryProvider);
   
-  return await supabase.getListings(
+  return await repository.searchListings(
+    query: query,
     region: filters['region'] as String?,
     city: filters['city'] as String?,
     listingType: filters['listingType'] as String?,

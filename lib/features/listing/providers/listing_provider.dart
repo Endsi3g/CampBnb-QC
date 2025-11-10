@@ -1,24 +1,28 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../services/supabase_service.dart';
+import '../../../repositories/listing_repository.dart';
 import '../../../models/listing_model.dart';
 
 part 'listing_provider.g.dart';
 
 @riverpod
+ListingRepository listingRepository(ListingRepositoryRef ref) {
+  return ListingRepository();
+}
+
+@riverpod
 Future<ListingModel?> listingDetails(ListingDetailsRef ref, String listingId) async {
-  final supabase = SupabaseService();
-  return await supabase.getListing(listingId);
+  final repository = ref.watch(listingRepositoryProvider);
+  return await repository.getListingById(listingId);
 }
 
 @riverpod
 Future<List<ListingModel>> userListings(UserListingsRef ref) async {
-  final supabase = SupabaseService();
-  final user = supabase.currentUser;
-  if (user == null) return [];
+  final repository = ref.watch(listingRepositoryProvider);
+  final profileRepository = ref.watch(profileRepositoryProvider);
+  final userId = profileRepository.getCurrentUserId();
+  if (userId == null) return [];
   
-  // Note: Implémenter une méthode spécifique pour les listings de l'utilisateur
-  final allListings = await supabase.getListings();
-  return allListings.where((l) => l.hostId == user.id).toList();
+  return await repository.getUserListings(userId);
 }
 

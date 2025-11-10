@@ -88,6 +88,49 @@ curl http://localhost:5000/api/localai/models
 curl http://localhost:5000/api/handy/health
 ```
 
+## 🐳 Docker
+
+### Construction de l'image
+
+```bash
+# Depuis la racine du projet
+docker build -t campbnb-backend -f backend/Dockerfile ./backend
+```
+
+### Exécution locale
+
+```bash
+docker run -p 5000:5000 \
+  -e LOCALAI_URL=http://host.docker.internal:8080 \
+  -e HANDY_API_URL=http://host.docker.internal:3000 \
+  campbnb-backend
+```
+
+### Utilisation avec GitHub Container Registry
+
+L'image Docker est automatiquement publiée sur GitHub Container Registry lors des push sur les branches `main` ou `develop`.
+
+#### Pull de l'image
+
+```bash
+# Authentification
+echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
+
+# Pull de l'image
+docker pull ghcr.io/YOUR_USERNAME/campbnb/campbnb-backend:latest
+```
+
+#### Exécution depuis GitHub Container Registry
+
+```bash
+docker run -p 5000:5000 \
+  -e LOCALAI_URL=http://host.docker.internal:8080 \
+  -e HANDY_API_URL=http://host.docker.internal:3000 \
+  ghcr.io/YOUR_USERNAME/campbnb/campbnb-backend:latest
+```
+
+Pour plus de détails, voir [GITHUB_CONTAINER_REGISTRY.md](../docs/GITHUB_CONTAINER_REGISTRY.md).
+
 ## 📝 Notes
 
 - Ce backend est un proxy simple. Pour la production, considérer :

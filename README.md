@@ -23,6 +23,7 @@ Permettre aux utilisateurs de :
 - **Call Center** : Microsoft Call Center AI (appels téléphoniques avec IA)
 - **Speech-to-Text** : Handy (transcription vocale offline)
 - **CI/CD** : GitHub Actions
+- **Container Registry** : GitHub Container Registry (ghcr.io) pour les images Docker
 
 ## 📋 Fonctionnalités MVP
 
@@ -121,6 +122,7 @@ Voir la documentation complète dans le dossier `docs/` :
 - `docs/flows.md` - Flux utilisateur
 - `docs/gemini-prompts.md` - Exemples de prompts Gemini
 - `docs/integrations.md` - **Guide d'intégration Call Center AI, LocalAI et Handy**
+- `docs/GITHUB_CONTAINER_REGISTRY.md` - **Guide GitHub Container Registry pour les images Docker**
 
 ## 🔌 Intégrations
 

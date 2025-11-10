@@ -1,29 +1,35 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../services/supabase_service.dart';
+import '../../../repositories/booking_repository.dart';
+import '../../../repositories/profile_repository.dart';
 import '../../../models/booking_model.dart';
 
 part 'booking_provider.g.dart';
 
 @riverpod
+BookingRepository bookingRepository(BookingRepositoryRef ref) {
+  return BookingRepository();
+}
+
+@riverpod
 Future<List<BookingModel>> userBookings(UserBookingsRef ref) async {
-  final supabase = SupabaseService();
-  final user = supabase.currentUser;
-  if (user == null) return [];
+  final repository = ref.watch(bookingRepositoryProvider);
+  final profileRepository = ref.watch(profileRepositoryProvider);
+  final userId = profileRepository.getCurrentUserId();
+  if (userId == null) return [];
   
-  return await supabase.getUserBookings(user.id);
+  return await repository.getUserBookings(userId);
 }
 
 @riverpod
 class BookingNotifier extends _$BookingNotifier {
-  final _supabase = SupabaseService();
-  
   @override
   FutureOr<void> build() {}
   
   Future<String> createBooking(BookingModel booking) async {
     try {
-      final bookingId = await _supabase.createBooking(booking);
+      final repository = ref.read(bookingRepositoryProvider);
+      final bookingId = await repository.createBooking(booking);
       return bookingId;
     } catch (e) {
       rethrow;
@@ -31,7 +37,8 @@ class BookingNotifier extends _$BookingNotifier {
   }
   
   Future<void> updateBookingStatus(String bookingId, String status) async {
-    await _supabase.updateBookingStatus(bookingId, status);
+    final repository = ref.read(bookingRepositoryProvider);
+    await repository.updateBookingStatus(bookingId, status);
   }
 }
 
