@@ -58,15 +58,54 @@ Le projet suit une architecture par domaines (Clean Architecture) :
 
 ```
 lib/
-├── core/              # Configuration, constants, utils
-├── features/          # Modules par fonctionnalité
-│   ├── auth/
-│   ├── search/
-│   ├── booking/
-│   ├── listing/
-│   └── profile/
-├── shared/            # Widgets, services partagés
-└── main.dart
+├── core/                    # Configuration et utilitaires centraux
+│   ├── config/             # Configuration (env, constants)
+│   ├── constants/          # Constantes de l'application
+│   └── utils/              # Utilitaires (logger, helpers)
+│
+├── features/               # Modules par fonctionnalité
+│   ├── auth/              # Authentification
+│   │   ├── providers/     # Providers Riverpod
+│   │   └── screens/       # Écrans d'authentification
+│   │
+│   ├── home/              # Accueil
+│   │   └── screens/
+│   │
+│   ├── search/            # Recherche et filtres
+│   │   ├── providers/
+│   │   └── screens/
+│   │
+│   ├── listing/           # Gestion des annonces
+│   │   ├── providers/
+│   │   └── screens/
+│   │
+│   ├── booking/           # Réservations
+│   │   ├── providers/
+│   │   └── screens/
+│   │
+│   ├── profile/           # Profil utilisateur
+│   │   └── screens/
+│   │
+│   └── ai/                # Fonctionnalités IA
+│       ├── providers/
+│       └── screens/
+│
+├── models/                 # Modèles de données
+│   ├── profile_model.dart
+│   ├── listing_model.dart
+│   ├── booking_model.dart
+│   └── review_model.dart
+│
+├── services/              # Services backend
+│   ├── supabase_service.dart
+│   ├── gemini_service.dart
+│   └── maps_service.dart
+│
+├── shared/                # Code partagé
+│   ├── widgets/           # Widgets réutilisables
+│   └── routing/           # Navigation (GoRouter)
+│
+└── main.dart              # Point d'entrée
 ```
 
 ## 🚀 Installation
