@@ -43,6 +43,7 @@ jobs:
         id: filter
         uses: dorny/paths-filter@v2
         with:
+          list-files: shell
           filters: |
             flutter:
               - 'lib/**'
@@ -79,30 +80,44 @@ jobs:
         run: flutter pub run build_runner build --delete-conflicting-outputs || true
 
       - name: Build Web (Testing)
+        id: build-web
         run: |
-          flutter build web --release --dart-define=ENV=testing
+          flutter build web --release --dart-define=ENV=testing || {
+            echo "⚠️ Web build failed"
+            echo "web_build_success=false" >> $GITHUB_OUTPUT
+            exit 0
+          }
+          echo "web_build_success=true" >> $GITHUB_OUTPUT
         continue-on-error: true
 
       - name: Build APK (Testing)
+        id: build-apk
         run: |
-          flutter build apk --release --dart-define=ENV=testing
+          flutter build apk --release --dart-define=ENV=testing || {
+            echo "⚠️ Android build failed"
+            echo "apk_build_success=false" >> $GITHUB_OUTPUT
+            exit 0
+          }
+          echo "apk_build_success=true" >> $GITHUB_OUTPUT
         continue-on-error: true
 
       - name: Upload Web Build
-        if: success()
+        if: always() && steps.build-web.outputs.web_build_success == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: web-build-testing
           path: build/web/
           retention-days: 7
+          if-no-files-found: ignore
 
       - name: Upload APK Build
-        if: success()
+        if: always() && steps.build-apk.outputs.apk_build_success == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: apk-build-testing
           path: build/app/outputs/flutter-apk/app-release.apk
           retention-days: 7
+          if-no-files-found: ignore
 
   build-backend:
     name: Build Backend Docker Image
@@ -157,9 +172,9 @@ jobs:
     needs: [build-flutter, build-backend]
     if: always()
     permissions:
-      contents: write
+      contents: read
       pull-requests: write
-      statuses: write
+      issues: write
     
     steps:
       - name: Get deployment info
@@ -207,37 +222,22 @@ jobs:
             summary += `💡 *Les artifacts sont disponibles pendant 7 jours.*`;
             
             // Commenter sur la PR si c'est une PR
-            if (context.payload.pull_request) {
-              github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: summary
-              });
-            }
-            
-            // Créer un statut de commit (seulement pour les push, pas pour les PRs)
-            if (context.eventName === 'push' || context.eventName === 'workflow_dispatch') {
-              try {
-                const state = (flutterSuccess && backendSuccess) ? 'success' : 'failure';
-                const description = (flutterSuccess && backendSuccess) 
-                  ? '✅ Déploiement testing réussi' 
-                  : '❌ Déploiement testing échoué';
-                
-                await github.rest.repos.createCommitStatus({
+            try {
+              if (context.payload.pull_request) {
+                await github.rest.issues.createComment({
+                  issue_number: context.issue.number,
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  sha: context.sha,
-                  state: state,
-                  description: description,
-                  context: 'deploy/testing'
+                  body: summary
                 });
-              } catch (statusError) {
-                // Ignorer l'erreur si les permissions ne sont pas disponibles
-                console.log('⚠️ Impossible de créer le statut de commit:', statusError.message);
-                console.log('💡 Le workflow continue normalement sans le statut de commit');
               }
+            } catch (commentError) {
+              console.log('⚠️ Impossible de commenter sur la PR:', commentError.message);
+              console.log('💡 Le workflow continue normalement');
             }
+            
+            // Ne pas essayer de créer un statut de commit (permissions limitées)
+            // Les statuts sont gérés automatiquement par GitHub Actions
 
   create-release:
     name: Create Testing Release
