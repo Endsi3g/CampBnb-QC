@@ -1,13 +1,17 @@
 # This workflow will build a Swift project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
 
+# DÉSACTIVÉ - Ce workflow n'est pas pertinent pour ce projet Flutter
+# Les fichiers Swift présents sont générés par Flutter pour iOS/macOS
+
 name: Swift
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:  # Seulement déclenchement manuel
+  # push:
+  #   branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
 
 jobs:
   build:

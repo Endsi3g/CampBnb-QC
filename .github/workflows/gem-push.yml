@@ -1,10 +1,12 @@
 name: Ruby Gem
 
+# DÉSACTIVÉ - Ce workflow n'est pas pertinent pour ce projet Flutter
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:  # Seulement déclenchement manuel
+  # push:
+  #   branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
 
 jobs:
   build:
